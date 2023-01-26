@@ -29,6 +29,11 @@ public class OpenAIClientTest {
 
   @Test
   public void testOpenAI() {
+    String apiKey = System.getenv("OPENAI_API_KEY");
+    if (apiKey == null) {
+      LOG.warn("Test ignored, pass env properties.");
+      return;
+    }
 
     OpenAiService service = OpenAIClientTest.service;
     CompletionRequest request = CompletionRequest.builder()
