@@ -1,0 +1,18 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Start Studio Plugin" type="js.build_tools.npm">
+    <package-json value="$PROJECT_DIR$/studio-client/apps/main/feedback-hub-adapter-open-ai/package.json" />
+    <command value="start" />
+    <node-interpreter value="project" />
+    <package-manager value="pnpm" />
+    <envs />
+    <method v="2" />
+  </configuration>
+  <configuration default="false" name="Start Studio Plugin" type="js.build_tools.npm">
+    <package-json value="$PROJECT_DIR$/studio-client/apps/main/feedback-hub-adapter--open-ai/package.json" />
+    <command value="start" />
+    <node-interpreter value="project" />
+    <package-manager value="pnpm" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

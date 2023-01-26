@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CMSettings folder="/Settings/Options/Settings/Feedback Hub" name="OpenAI" xmlns:cmexport="http://www.coremedia.com/2012/cmexport">
+<externalRefId></externalRefId>
+<locale></locale>
+<master/>
+<settings><Struct xmlns="http://www.coremedia.com/2008/struct" xmlns:xlink="http://www.w3.org/1999/xlink">
+<StringProperty Name="factoryId">OpenAI</StringProperty>
+<StringProperty Name="groupId">OpenAI</StringProperty>
+<StringProperty Name="contentType">CMArticle</StringProperty>
+<BooleanProperty Name="enabled">true</BooleanProperty>
+<StringProperty Name="reloadMode">none</StringProperty>
+<StructProperty Name="settings">
+<Struct>
+  <StringProperty Name="apiKey">YOUR API KEY</StringProperty>
+  <StringProperty Name="apiKey">text-davinci-003</StringProperty>
+  <IntProperty Name="maxTokens">1000</IntProperty>
+  <IntProperty Name="temperature">3</IntProperty>
+  <IntProperty Name="timeoutInSeconds">30</IntProperty>
+
+</Struct>
+</StructProperty>
+</Struct></settings>
+<identifier></identifier>
+</CMSettings>

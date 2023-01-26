@@ -1,0 +1,32 @@
+.openai-general-panel__default-state-icon:before,
+.openai-general-panel__empty-state-icon:before,
+.openai-general-panel__loading-state-icon:before {
+  content: "";
+  display: block;
+  margin: auto;
+  width: 160px;
+  height: 160px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: contain;
+}
+
+.openai-general-panel__credit_link {
+  text-align: center;
+  opacity: .5;
+}
+
+.openai-source-container {
+  margin-bottom: 10px;
+}
+
+.openai-source-container .x-box-inner {
+  font-size: 10px;
+  border-left: 3px solid rgb(38 138 178);
+  background-color: rgba(38,138,178,.1);
+  padding: 1em;
+}
+
+.openai-source-container__quote .x-form-display-field {
+  font-style: italic;
+}
