@@ -32,6 +32,9 @@ import EmptyContainer from "@coremedia/studio-client.ext.ui-components/component
 import ContainerSkin from "@coremedia/studio-client.ext.ui-components/skins/ContainerSkin";
 import SwitchingContainer from "@coremedia/studio-client.ext.ui-components/components/SwitchingContainer";
 import TextArea from "@jangaroo/ext-ts/form/field/TextArea";
+import SliderField from "@jangaroo/ext-ts/slider/Single";
+import SliderSkin from "@coremedia/studio-client.ext.ui-components/skins/SliderSkin";
+import NumberField from "@jangaroo/ext-ts/form/field/Number";
 
 interface OpenAIGeneralPanelConfig extends Config<FeedbackItemPanel> {
 }
@@ -45,6 +48,8 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
   #generatedTextExpression: ValueExpression = null;
 
   #questionInputExpression: ValueExpression = null;
+
+  #temperatureExpression: ValueExpression = null;
 
   #activeStateExpression: ValueExpression = null;
 
@@ -64,55 +69,18 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
     super(ConfigUtils.apply(Config(OpenAIGeneralPanel, {
       cls: OpenAIGeneralPanel.BLOCK_CLASS_NAME,
       items: [
-        // Input fields
-        Config(FormPanel, {
-          items: [
-            Config(TextField, {
-              flex: 1,
-              fieldLabel: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_question_label,
-              allowBlank: false,
-              blankText: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_question_blank_validation_text,
-              emptyText: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_question_emptyText,
-              plugins: [
-                Config(BindPropertyPlugin, {
-                  bindTo: this$.getQuestionInputExpression(),
-                  bidirectional: true,
-                }),
-              ],
-              listeners: {
-                "specialkey": (field: BaseField, e: ExtEvent) => {
-                  if (e.getKey() === ExtEvent.ENTER) {
-                    this.applyQuestion();
-                  }
-                }
-              },
-            }),
-            Config(Container, {width: 6}),
-            Config(Button, {
-              formBind: true,
-              ui: ButtonSkin.MATERIAL_PRIMARY.getSkin(),
-              handler: bind(this$, this$.applyQuestion),
-              text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_question_submit_button_label,
-            }),
-          ],
-          layout: Config(HBoxLayout, {
-            align: "stretch",
-            pack: "start",
-          }),
-        }),
-
         // Results
         Config(SwitchingContainer, {
           itemId: OpenAIGeneralPanel.RESPONSE_CONTAINER_ITEM_ID,
           activeItemValueExpression: this$.getActiveStateExpression(),
-          minHeight: 100,
+          minHeight: 300,
           items: [
             Config(EmptyContainer, {
+              margin: "40 0 0 0",
               itemId: OpenAIGeneralPanel.DEFAULT_STATE,
               iconElementName: "default-state-icon",
               bemBlockName: OpenAIGeneralPanel.BLOCK_CLASS_NAME,
               ui: ContainerSkin.GRID_100.getSkin(),
-              title: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_default_state_title,
               text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_default_state_text,
             }),
             Config(EmptyContainer, {
@@ -134,9 +102,11 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
             Config(Container, {
               itemId: OpenAIGeneralPanel.SUCCESS_STATE,
               items: [
-                Config(DisplayField, {
-                  ui: DisplayFieldSkin.BOLD.getSkin(),
-                  value: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_generated_text_header,
+                Config(Button, {
+                  formBind: true,
+                  ui: ButtonSkin.VIVID.getSkin(),
+                  handler: bind(this$, this$.applyTextToContent),
+                  text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_button_label,
                 }),
                 Config(TextArea, {
                   autoScroll: true,
@@ -150,16 +120,86 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                   ],
                 }),
                 Config(Container, {height: 6}),
-                Config(Button, {
-                  formBind: true,
-                  ui: ButtonSkin.VIVID.getSkin(),
-                  handler: bind(this$, this$.applyTextToContent),
-                  text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_button_label,
-                }),
               ],
               layout: Config(VBoxLayout, {align: "stretch"}),
             }),
           ]
+        }),
+        // Input fields
+        Config(FormPanel, {
+          items: [
+            Config(TextField, {
+              flex: 1,
+              allowBlank: false,
+              blankText: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_instruction_blank_validation_text,
+              emptyText: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_instruction_emptyText,
+              plugins: [
+                Config(BindPropertyPlugin, {
+                  bindTo: this$.getQuestionInputExpression(),
+                  bidirectional: true,
+                }),
+              ],
+              listeners: {
+                "specialkey": (field: BaseField, e: ExtEvent) => {
+                  if (e.getKey() === ExtEvent.ENTER) {
+                    this.applyQuestion();
+                  }
+                }
+              },
+            }),
+            Config(Container, {width: 6}),
+            Config(Button, {
+              formBind: true,
+              ui: ButtonSkin.MATERIAL_PRIMARY.getSkin(),
+              handler: bind(this$, this$.applyQuestion),
+              text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_instruction_submit_button_label,
+            }),
+          ],
+          layout: Config(HBoxLayout, {
+            align: "stretch",
+            pack: "start",
+          }),
+        }),
+        Config(FormPanel, {
+          items: [
+            Config(SliderField, {
+              fieldLabel: "Temperature",
+              labelAlign: "top",
+              ui: SliderSkin.DEFAULT.getSkin(),
+              width: 200,
+              minValue: 0.0,
+              maxValue: 1.0,
+              increment: 0.01,
+              decimalPrecision: 2,
+              labelSeparator: "",
+              plugins: [
+                Config(BindPropertyPlugin, {
+                  componentProperty: "value",
+                  bindTo: this$.getTemperatureExpression(),
+                  bidirectional: true,
+                }),
+              ],
+            }),
+            Config(NumberField, {
+              allowDecimals: true,
+              //fieldStyle: "background-image:none",
+              minValue: 0,
+              maxValue: 1,
+              allowBlank: false,
+              hideTrigger: true,
+              plugins: [
+                Config(BindPropertyPlugin, {
+                  componentProperty: "value",
+                  bindTo: this$.getTemperatureExpression(),
+                  bidirectional: true,
+                }),
+              ],
+            }),
+          ],
+          layout: Config(HBoxLayout, {
+            align: "stretch",
+            pack: "start",
+          }),
         }),
         Config(DisplayField, {
           cls: `${OpenAIGeneralPanel.BLOCK_CLASS_NAME}__credit_link`,
@@ -181,6 +221,13 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
       this.#questionInputExpression = ValueExpressionFactory.createFromValue("");
     }
     return this.#questionInputExpression;
+  }
+
+  getTemperatureExpression(): ValueExpression {
+    if (!this.#temperatureExpression) {
+      this.#temperatureExpression = ValueExpressionFactory.createFromValue(0.3);
+    }
+    return this.#temperatureExpression;
   }
 
   getGeneratedTextExpression(): ValueExpression {
