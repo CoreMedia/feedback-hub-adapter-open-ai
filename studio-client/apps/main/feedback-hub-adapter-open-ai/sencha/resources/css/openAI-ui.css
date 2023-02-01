@@ -9,7 +9,37 @@
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: contain;
+  opacity: .1;
 }
+
+@keyframes loaderAnimation {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(0deg) scale(0.33);
+  }
+  75% {
+    transform: rotate(0deg) scale(1);
+  }
+  to {
+    transform: rotate(359deg) scale(1);
+  }
+}
+
+.openai-general-panel__default-state-icon:before {
+  background-image: url('../img/openai.svg');
+}
+
+.openai-general-panel__empty-state-icon:before {
+  background-image: url('../img/openai-no-result.svg');
+}
+
+.openai-general-panel__loading-state-icon:before {
+  background-image: url('../img/openai.svg');
+  animation: loaderAnimation 2s infinite linear;
+}
+
 
 .openai-general-panel__credit_link {
   text-align: center;

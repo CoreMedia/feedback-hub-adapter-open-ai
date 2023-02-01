@@ -53,7 +53,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
   static readonly LOADING_STATE: string = "loading";
   static readonly SUCCESS_STATE: string = "success";
 
-  static readonly BLOCK_CLASS_NAME: string = "OpenAI-general-panel";
+  static readonly BLOCK_CLASS_NAME: string = "openai-general-panel";
 
   //dirty
   static override readonly xtype: string = "com.coremedia.labs.plugins.feedbackhub.wonki.config.OpenAIitempanel";
