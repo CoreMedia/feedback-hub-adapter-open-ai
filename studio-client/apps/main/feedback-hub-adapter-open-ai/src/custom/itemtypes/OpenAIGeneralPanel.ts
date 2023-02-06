@@ -7,7 +7,6 @@ import ValueExpressionFactory from "@coremedia/studio-client.client-core/data/Va
 import BindPropertyPlugin from "@coremedia/studio-client.ext.ui-components/plugins/BindPropertyPlugin";
 import VerticalSpacingPlugin from "@coremedia/studio-client.ext.ui-components/plugins/VerticalSpacingPlugin";
 import ButtonSkin from "@coremedia/studio-client.ext.ui-components/skins/ButtonSkin";
-import DisplayFieldSkin from "@coremedia/studio-client.ext.ui-components/skins/DisplayFieldSkin";
 import editorContext from "@coremedia/studio-client.main.editor-components/sdk/editorContext";
 import FeedbackItemPanel
   from "@coremedia/studio-client.main.feedback-hub-editor-components/components/itempanels/FeedbackItemPanel";
@@ -51,6 +50,8 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
 
   #temperatureExpression: ValueExpression = null;
 
+  #maximumLengthExpression: ValueExpression = null;
+
   #activeStateExpression: ValueExpression = null;
 
   static readonly DEFAULT_STATE: string = "default";
@@ -76,11 +77,11 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
           minHeight: 300,
           items: [
             Config(EmptyContainer, {
-              margin: "40 0 0 0",
               itemId: OpenAIGeneralPanel.DEFAULT_STATE,
               iconElementName: "default-state-icon",
               bemBlockName: OpenAIGeneralPanel.BLOCK_CLASS_NAME,
               ui: ContainerSkin.GRID_100.getSkin(),
+              title: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_default_state_title,
               text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_default_state_text,
             }),
             Config(EmptyContainer, {
@@ -102,12 +103,6 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
             Config(Container, {
               itemId: OpenAIGeneralPanel.SUCCESS_STATE,
               items: [
-                Config(Button, {
-                  formBind: true,
-                  ui: ButtonSkin.VIVID.getSkin(),
-                  handler: bind(this$, this$.applyTextToContent),
-                  text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_button_label,
-                }),
                 Config(TextArea, {
                   autoScroll: true,
                   readOnly: true,
@@ -120,6 +115,18 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                   ],
                 }),
                 Config(Container, {height: 6}),
+                Config(Container, {
+                  items: [
+                    Config(Button, {
+                      formBind: true,
+                      ui: ButtonSkin.VIVID.getSkin(),
+                      handler: bind(this$, this$.applyTextToContent),
+                      text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_button_label,
+                      width: 160
+                    }),
+                  ],
+                  layout: Config(VBoxLayout, {align: "end"}),
+                })
               ],
               layout: Config(VBoxLayout, {align: "stretch"}),
             }),
@@ -130,6 +137,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
           items: [
             Config(TextField, {
               flex: 1,
+              cls: "openai-input-text-field",
               allowBlank: false,
               blankText: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_instruction_blank_validation_text,
               emptyText: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_instruction_emptyText,
@@ -164,7 +172,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
           items: [
             Config(SliderField, {
               fieldLabel: "Temperature",
-              labelAlign: "top",
+             // labelAlign: "top",
               ui: SliderSkin.DEFAULT.getSkin(),
               width: 200,
               minValue: 0.0,
@@ -181,8 +189,8 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
               ],
             }),
             Config(NumberField, {
+              width: 40,
               allowDecimals: true,
-              //fieldStyle: "background-image:none",
               minValue: 0,
               maxValue: 1,
               allowBlank: false,
@@ -195,10 +203,42 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                 }),
               ],
             }),
+            Config(SliderField, {
+              fieldLabel: "Maximum length",
+             // labelAlign: "top",
+              ui: SliderSkin.DEFAULT.getSkin(),
+              width: 200,
+              minValue: 1,
+              maxValue: 4000,
+              increment: 1,
+              labelSeparator: "",
+              plugins: [
+                Config(BindPropertyPlugin, {
+                  componentProperty: "value",
+                  bindTo: this$.getMaximumLengthExpression(),
+                  bidirectional: true,
+                }),
+              ],
+            }),
+            Config(NumberField, {
+              width: 40,
+              allowDecimals: false,
+              minValue: 1,
+              maxValue: 4000,
+              allowBlank: false,
+              hideTrigger: true,
+              plugins: [
+                Config(BindPropertyPlugin, {
+                  componentProperty: "value",
+                  bindTo: this$.getMaximumLengthExpression(),
+                  bidirectional: true,
+                }),
+              ],
+            }),
           ],
           layout: Config(HBoxLayout, {
             align: "stretch",
-            pack: "start",
+            pack: "center",
           }),
         }),
         Config(DisplayField, {
@@ -228,6 +268,13 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
       this.#temperatureExpression = ValueExpressionFactory.createFromValue(0.3);
     }
     return this.#temperatureExpression;
+  }
+
+  getMaximumLengthExpression(): ValueExpression {
+    if (!this.#maximumLengthExpression) {
+      this.#maximumLengthExpression = ValueExpressionFactory.createFromValue(1000);
+    }
+    return this.#maximumLengthExpression;
   }
 
   getGeneratedTextExpression(): ValueExpression {
@@ -283,6 +330,8 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
     const input = this.getQuestionInputExpression().getValue();
     const params: Record<string, any> = {
       prompt: input,
+      temperature: this.getTemperatureExpression().getValue(),
+      maxLength: this.getMaximumLengthExpression().getValue(),
       contentId: content.getId(),
       siteId: siteId,
       groupId: this.feedbackGroup.name,

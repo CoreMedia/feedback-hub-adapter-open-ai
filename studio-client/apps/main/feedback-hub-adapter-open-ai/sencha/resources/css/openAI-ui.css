@@ -3,13 +3,14 @@
 .openai-general-panel__loading-state-icon:before {
   content: "";
   display: block;
-  margin: auto;
   width: 100px;
   height: 100px;
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: contain;
   opacity: .1;
+  margin: 40px auto auto;
+
 }
 
 @keyframes loaderAnimation {

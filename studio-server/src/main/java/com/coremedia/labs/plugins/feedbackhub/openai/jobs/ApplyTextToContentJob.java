@@ -8,16 +8,11 @@ import com.coremedia.rest.cap.jobs.Job;
 import com.coremedia.rest.cap.jobs.JobContext;
 import com.coremedia.rest.cap.jobs.JobExecutionException;
 import com.coremedia.xml.Markup;
-import com.coremedia.xml.MarkupFactory;
 import com.google.gson.annotations.SerializedName;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class ApplyTextToContentJob implements Job {
   private static final Logger LOG = LoggerFactory.getLogger(ApplyTextToContentJob.class);
@@ -49,7 +44,7 @@ public class ApplyTextToContentJob implements Job {
     try {
 
       Content content = contentRepository.getContent(contentId);
-      Markup newMarkup = convertPlainTextToMarkup();
+      Markup newMarkup = TextToMarkupUtil.plainTextToMarkup(text);
 
       if (content.isCheckedOut()) {
         content.checkIn();
@@ -63,20 +58,6 @@ public class ApplyTextToContentJob implements Job {
       LOG.error("Failed to apply text to content {}: {}", contentId, e.getMessage());
       throw new JobExecutionException(GenericJobErrorCode.FAILED);
     }
-  }
-
-  @NotNull
-  private Markup convertPlainTextToMarkup() {
-    String xmlStart = "<div xmlns=\"http://www.coremedia.com/2003/richtext-1.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">";
-    String xmlEnd = "</div>";
-
-    //split at blank lines
-    String xmlParagraphs = Arrays.stream(text.split("\\n\\n"))
-            .map(paragraph -> "<p>" + paragraph + "</p>")
-            .collect(Collectors.joining());
-
-    String newXml = xmlStart + xmlParagraphs + xmlEnd;
-    return MarkupFactory.fromString(newXml);
   }
 
 }

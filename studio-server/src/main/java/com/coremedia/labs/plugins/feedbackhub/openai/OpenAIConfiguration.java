@@ -31,8 +31,8 @@ public class OpenAIConfiguration {
   }
 
   @Bean
-  public GenerateTextJobFactory generateTextJobFactory(@NonNull SitesService sitesService, @NonNull FeedbackSettingsProvider openAIFeedbackSettingsProvider) {
-    return new GenerateTextJobFactory(sitesService, openAIFeedbackSettingsProvider);
+  public GenerateTextJobFactory generateTextJobFactory(@NonNull FeedbackSettingsProvider openAIFeedbackSettingsProvider) {
+    return new GenerateTextJobFactory(openAIFeedbackSettingsProvider);
   }
 
   @Bean

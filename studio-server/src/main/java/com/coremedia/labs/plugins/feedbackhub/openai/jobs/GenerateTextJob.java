@@ -1,6 +1,5 @@
 package com.coremedia.labs.plugins.feedbackhub.openai.jobs;
 
-import com.coremedia.cap.multisite.SitesService;
 import com.coremedia.labs.plugins.feedbackhub.openai.FeedbackSettingsProvider;
 import com.coremedia.labs.plugins.feedbackhub.openai.OpenAISettings;
 import com.coremedia.labs.plugins.feedbackhub.openai.api.OpenAIClientProvider;
@@ -23,21 +22,31 @@ public class GenerateTextJob implements Job {
 
 
   private String prompt;
+  private Double temperature;
+  private int maxLength;
   private String contentId;
   private String siteId;
   private String groupId;
-  private final SitesService sitesService;
 
-  private FeedbackSettingsProvider settingsProvider;
+  private final FeedbackSettingsProvider settingsProvider;
 
-  public GenerateTextJob(FeedbackSettingsProvider settingsProvider, SitesService sitesService) {
+  public GenerateTextJob(FeedbackSettingsProvider settingsProvider) {
     this.settingsProvider = settingsProvider;
-    this.sitesService = sitesService;
   }
 
   @SerializedName("prompt")
   public void setPrompt(String prompt) {
     this.prompt = prompt;
+  }
+
+  @SerializedName("temperature")
+  public void setTemperature(Double temperature) {
+    this.temperature = temperature;
+  }
+
+  @SerializedName("maxLength")
+  public void setMaxLength(int maxLength) {
+    this.maxLength = maxLength;
   }
 
   @SerializedName("contentId")
@@ -62,20 +71,29 @@ public class GenerateTextJob implements Job {
       OpenAISettings settings = getSettings();
 
       OpenAiService client = OpenAIClientProvider.getClient(settings.getApiKey(), Duration.ofSeconds(settings.getTimeoutInSeconds()));
-      double temperature = settings.getTemperature().doubleValue() / 10;
       CompletionRequest request = CompletionRequest.builder()
-              .prompt(prompt)
-              .model(settings.getLanguageModel())
-              .maxTokens(settings.getMaxTokens())
-              .temperature(temperature)
-              .echo(false)
-              .build();
-      return client.createCompletion(request).getChoices().stream().findFirst().orElseThrow().getText();
+        .prompt(prompt)
+        .model(settings.getLanguageModel())
+        .maxTokens(maxLength)
+        .temperature(temperature)
+        .echo(false)
+        .build();
+
+      String text = client.createCompletion(request)
+        .getChoices()
+        .stream()
+        .findFirst()
+        .orElseThrow()
+        .getText()
+        .trim();
+
+      return text.trim();
     } catch (Exception e) {
       LOG.error("Failed to generate text for given prompt: {} on content {}: {}", prompt, contentId, e.getMessage());
       throw new JobExecutionException(GenericJobErrorCode.FAILED, e.getMessage());
     }
   }
+
   private OpenAISettings getSettings() {
     return settingsProvider.getSettings(groupId, siteId);
   }
