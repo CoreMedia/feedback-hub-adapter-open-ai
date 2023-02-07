@@ -47,7 +47,7 @@ host `localhost` and port `8000`. The VM parameter should look like this:
 
 In IDEA, it should look like this:
 
-![Feedback Rendering](docs/images/debugging.png "IDEA Debug Configuration")
+![Feedback Rendering](docs/images/debug.png "IDEA Debug Configuration")
 
 When executed, the Studio server will start up and you will be able to 
 debug your plugin.
