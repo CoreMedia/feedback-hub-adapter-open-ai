@@ -33,8 +33,11 @@ interface FeedbackHubOpenAIStudioPlugin_properties {
   OpenAI_loading_state_title: string;
   OpenAI_loading_state_text: string;
   OpenAI_credit_link: string;
-
-
+  OpenAI_settings_title: string;
+  OpenAI_settings_temperature_fieldLabel: string;
+  OpenAI_settings_temperature_tooltip: string;
+  OpenAI_settings_maxLength_fieldLabel: string;
+  OpenAI_settings_maxLength_tooltip: string;
 }
 
 /**
@@ -60,6 +63,11 @@ const FeedbackHubOpenAIStudioPlugin_properties: FeedbackHubOpenAIStudioPlugin_pr
   OpenAI_loading_state_title: "Writing ...",
   OpenAI_loading_state_text: "Please have some patience while ChatGPT generates the text.",
   OpenAI_credit_link: "service provided by <a href=\"https://openai.com/\" target=\"_blank\">OpenAI</a>.",
+  OpenAI_settings_title: "AI Model Configuration",
+  OpenAI_settings_temperature_fieldLabel: "Temperature",
+  OpenAI_settings_temperature_tooltip: "Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.",
+  OpenAI_settings_maxLength_fieldLabel: "Maximum length",
+  OpenAI_settings_maxLength_tooltip: "The maximum length of tokens to generate."
 };
 
 export default FeedbackHubOpenAIStudioPlugin_properties;

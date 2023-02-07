@@ -61,3 +61,18 @@
 .openai-source-container__quote .x-form-display-field {
   font-style: italic;
 }
+
+.openai-chatgpt-settings {
+  border: 1px solid #b3b1b1;
+  box-shadow: none !important;
+  background: #fafafa;
+}
+
+.openai-chatgpt-settings .x-panel-header-card-200-top,
+.openai-chatgpt-settings .x-panel-body-card-200 {
+  background-color: transparent;
+}
+
+.openai-chatgpt-settings.x-collapsed {
+  border-color: transparent;
+}

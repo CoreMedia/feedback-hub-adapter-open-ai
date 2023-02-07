@@ -19,7 +19,7 @@ import TextField from "@jangaroo/ext-ts/form/field/Text";
 import AnchorLayout from "@jangaroo/ext-ts/layout/container/Anchor";
 import HBoxLayout from "@jangaroo/ext-ts/layout/container/HBox";
 import VBoxLayout from "@jangaroo/ext-ts/layout/container/VBox";
-import {bind} from "@jangaroo/runtime";
+import { bind } from "@jangaroo/runtime";
 import Config from "@jangaroo/runtime/Config";
 import ConfigUtils from "@jangaroo/runtime/ConfigUtils";
 import trace from "@jangaroo/runtime/trace";
@@ -34,6 +34,9 @@ import TextArea from "@jangaroo/ext-ts/form/field/TextArea";
 import SliderField from "@jangaroo/ext-ts/slider/Single";
 import SliderSkin from "@coremedia/studio-client.ext.ui-components/skins/SliderSkin";
 import NumberField from "@jangaroo/ext-ts/form/field/Number";
+import CollapsiblePanel from "@coremedia/studio-client.ext.ui-components/components/panel/CollapsiblePanel";
+import Spacer from "@jangaroo/ext-ts/toolbar/Spacer";
+import AddQuickTipPlugin from "@coremedia/studio-client.ext.ui-components/plugins/AddQuickTipPlugin";
 
 interface OpenAIGeneralPanelConfig extends Config<FeedbackItemPanel> {
 }
@@ -62,7 +65,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
   static readonly BLOCK_CLASS_NAME: string = "openai-general-panel";
 
   //dirty
-  static override readonly xtype: string = "com.coremedia.labs.plugins.feedbackhub.wonki.config.OpenAIitempanel";
+  static override readonly xtype: string = "com.coremedia.labs.plugins.feedbackhub.openai.config.OpenAIGeneralPanel";
 
   constructor(config: Config<OpenAIGeneralPanel> = null) {
     // @ts-expect-error Ext JS semantics
@@ -114,21 +117,20 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                     }),
                   ],
                 }),
-                Config(Container, {height: 6}),
+                Config(Container, { height: 6 }),
                 Config(Container, {
                   items: [
                     Config(Button, {
                       formBind: true,
                       ui: ButtonSkin.VIVID.getSkin(),
                       handler: bind(this$, this$.applyTextToContent),
-                      text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_button_label,
-                      width: 160
+                      text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_button_label
                     }),
                   ],
-                  layout: Config(VBoxLayout, {align: "end"}),
+                  layout: Config(VBoxLayout, { align: "end" }),
                 })
               ],
-              layout: Config(VBoxLayout, {align: "stretch"}),
+              layout: Config(VBoxLayout, { align: "stretch" }),
             }),
           ]
         }),
@@ -155,7 +157,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                 }
               },
             }),
-            Config(Container, {width: 6}),
+            Config(Container, { width: 6 }),
             Config(Button, {
               formBind: true,
               ui: ButtonSkin.MATERIAL_PRIMARY.getSkin(),
@@ -168,11 +170,19 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
             pack: "start",
           }),
         }),
-        Config(FormPanel, {
+
+        Config(Spacer, { height: 10 }),
+
+        Config(CollapsiblePanel, {
+          title: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_title,
+          cls: "openai-chatgpt-settings",
+          collapsible: true,
+          collapsed: true,
+          bodyPadding: 0,
           items: [
+            // Temperature
             Config(SliderField, {
-              fieldLabel: "Temperature",
-             // labelAlign: "top",
+              fieldLabel: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_temperature_fieldLabel,
               ui: SliderSkin.DEFAULT.getSkin(),
               width: 200,
               minValue: 0.0,
@@ -186,6 +196,9 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                   bindTo: this$.getTemperatureExpression(),
                   bidirectional: true,
                 }),
+                Config(AddQuickTipPlugin, {
+                  text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_temperature_tooltip
+                })
               ],
             }),
             Config(NumberField, {
@@ -201,11 +214,17 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                   bindTo: this$.getTemperatureExpression(),
                   bidirectional: true,
                 }),
+                Config(AddQuickTipPlugin, {
+                  text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_temperature_tooltip
+                })
               ],
             }),
+
+            Config(Spacer, { width: 30 }),
+
+            // Maximum length
             Config(SliderField, {
-              fieldLabel: "Maximum length",
-             // labelAlign: "top",
+              fieldLabel: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_maxLength_fieldLabel,
               ui: SliderSkin.DEFAULT.getSkin(),
               width: 200,
               minValue: 1,
@@ -218,6 +237,9 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                   bindTo: this$.getMaximumLengthExpression(),
                   bidirectional: true,
                 }),
+                Config(AddQuickTipPlugin, {
+                  text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_maxLength_tooltip
+                })
               ],
             }),
             Config(NumberField, {
@@ -233,11 +255,14 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                   bindTo: this$.getMaximumLengthExpression(),
                   bidirectional: true,
                 }),
+                Config(AddQuickTipPlugin, {
+                  text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_maxLength_tooltip
+                })
               ],
             }),
           ],
           layout: Config(HBoxLayout, {
-            align: "stretch",
+            align: "middle",
             pack: "center",
           }),
         }),
@@ -248,7 +273,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
         })
       ],
       defaultType: Component.xtype,
-      defaults: Config<Component>({anchor: "100%"}),
+      defaults: Config<Component>({ anchor: "100%" }),
       layout: Config(AnchorLayout),
       plugins: [
         Config(VerticalSpacingPlugin),
@@ -296,29 +321,29 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
     let msg = FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_popup_message;
     let buttonLabel = FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_popup_submit_button_label;
     MessageBoxUtil.showConfirmation(title, msg, buttonLabel,
-            (btn: any): void => {
-              if (btn === "ok") {
-                const content: Content = this.contentExpression.getValue();
-                const text = this.getGeneratedTextExpression().getValue();
-                const params: Record<string, any> = {
-                  text: text,
-                  contentId: content.getId(),
-                };
+      (btn: any): void => {
+        if (btn === "ok") {
+          const content: Content = this.contentExpression.getValue();
+          const text = this.getGeneratedTextExpression().getValue();
+          const params: Record<string, any> = {
+            text: text,
+            contentId: content.getId(),
+          };
 
-                const JOB_TYPE = "ApplyTextToContent";
-                console.log(`request params: ${params}`);
-                jobService._.executeJob(
-                        new GenericRemoteJob(JOB_TYPE, params),
-                        //on success
-                        (details: any): void => {
-                        },
-                        //on error
-                        (error: JobExecutionError): void => {
-                          trace("[ERROR]", "Error applying text to content: " + error);
-                        },
-                );
-              }
-            });
+          const JOB_TYPE = "ApplyTextToContent";
+          console.log(`request params: ${params}`);
+          jobService._.executeJob(
+            new GenericRemoteJob(JOB_TYPE, params),
+            //on success
+            (details: any): void => {
+            },
+            //on error
+            (error: JobExecutionError): void => {
+              trace("[ERROR]", "Error applying text to content: " + error);
+            },
+          );
+        }
+      });
   }
 
   applyQuestion(): void {
@@ -341,20 +366,19 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
     console.log(`request params: ${params}`);
 
     jobService._.executeJob(
-            new GenericRemoteJob(JOB_TYPE, params),
-            //on success
-            (details: any): void => {
+      new GenericRemoteJob(JOB_TYPE, params),
+      //on success
+      (details: any): void => {
 
-              this.getActiveStateExpression().setValue(OpenAIGeneralPanel.SUCCESS_STATE);
-              this.getGeneratedTextExpression().setValue(details);
+        this.getActiveStateExpression().setValue(OpenAIGeneralPanel.SUCCESS_STATE);
+        this.getGeneratedTextExpression().setValue(details);
 
-
-            },
-            //on error
-            (error: JobExecutionError): void => {
-              this.getActiveStateExpression().setValue(OpenAIGeneralPanel.EMPTY_STATE);
-              trace("[ERROR]", "Error applying question: " + error);
-            },
+      },
+      //on error
+      (error: JobExecutionError): void => {
+        this.getActiveStateExpression().setValue(OpenAIGeneralPanel.EMPTY_STATE);
+        trace("[ERROR]", "Error applying question: " + error);
+      },
     );
 
     this.getActiveStateExpression().setValue(OpenAIGeneralPanel.LOADING_STATE);
