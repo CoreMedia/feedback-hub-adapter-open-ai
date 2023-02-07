@@ -12,6 +12,7 @@
 <StructProperty Name="settings">
 <Struct>
   <StringProperty Name="apiKey">YOUR API KEY</StringProperty>
+  <StringProperty Name="languageModel">text-davinci-003</StringProperty>
   <StringProperty Name="sourceProperties">detailText</StringProperty>
   <IntProperty Name="maxTokens">1000</IntProperty>
   <IntProperty Name="timeoutInSeconds">30</IntProperty>

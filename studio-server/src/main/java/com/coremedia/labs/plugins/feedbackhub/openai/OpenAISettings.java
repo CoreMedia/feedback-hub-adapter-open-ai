@@ -11,10 +11,6 @@ public interface OpenAISettings {
   String getApiKey();
   Integer getTimeoutInSeconds();
   @NonNull
-  Integer getMaxTokens();
-  @NonNull
-  Integer getTemperature();
-  @NonNull
   String getLanguageModel();
 
 }
