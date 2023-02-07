@@ -49,10 +49,12 @@ public class TextToMarkupUtil {
     return stream(result.split("<br/><br/>"))
 
       .map(paragraph -> {
-        if (paragraph.startsWith(ORDERED_LIST_OPENING_TAG)) {
-          return paragraph;
+        String trimmedLine = paragraph.replaceFirst("<br/>", "");
+
+        if (trimmedLine.startsWith(ORDERED_LIST_OPENING_TAG)) {
+          return trimmedLine;
         }
-        return PARAGRAPH_OPENING_TAG + paragraph + PARAGRAPH_CLOSING_TAG;
+        return PARAGRAPH_OPENING_TAG + trimmedLine + PARAGRAPH_CLOSING_TAG;
       })
       .collect(joining());
   }
