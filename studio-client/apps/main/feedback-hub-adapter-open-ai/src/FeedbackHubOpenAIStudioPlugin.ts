@@ -9,6 +9,11 @@ import ConfigUtils from "@jangaroo/runtime/ConfigUtils";
 import resourceManager from "@jangaroo/runtime/l10n/resourceManager";
 import FeedbackHubOpenAIStudioPlugin_properties from "./FeedbackHubOpenAIStudioPlugin_properties";
 import OpenAIGeneralPanel from "./custom/itemtypes/OpenAIGeneralPanel";
+import NewContentMenu from "@coremedia/studio-client.main.editor-components/sdk/newcontent/NewContentMenu";
+import AddItemsPlugin from "@coremedia/studio-client.ext.ui-components/plugins/AddItemsPlugin";
+import Component from "@jangaroo/ext-ts/Component";
+import OpenAICreatePicturesMenuItem from "./custom/newcontent/OpenAICreatePicturesMenuItem";
+import Separator from "@jangaroo/ext-ts/menu/Separator";
 
 interface FeedbackHubOpenAIStudioPluginConfig extends Config<StudioPlugin> {
 }
@@ -17,11 +22,24 @@ class FeedbackHubOpenAIStudioPlugin extends StudioPlugin {
   declare Config: FeedbackHubOpenAIStudioPluginConfig;
 
   constructor(config: Config<FeedbackHubOpenAIStudioPlugin> = null) {
-    super((()=>{
+    super((() => {
       this.#__initialize__(config);
       return ConfigUtils.apply(Config(FeedbackHubOpenAIStudioPlugin, {
 
         rules: [
+          Config(NewContentMenu, {
+            plugins: [
+              Config(AddItemsPlugin, {
+                items: [
+                  Config(Separator, { itemId: "openAiCreatePicturesMenuSeparator" }),
+                  Config(OpenAICreatePicturesMenuItem)
+                ],
+                before: [
+                  Config(Component, { itemId: NewContentMenu.DYNAMIC_SEPARATOR }),
+                ],
+              })
+            ]
+          })
         ],
 
         configuration: [

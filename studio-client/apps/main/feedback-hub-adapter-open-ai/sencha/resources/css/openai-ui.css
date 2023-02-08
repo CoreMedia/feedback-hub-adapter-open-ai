@@ -1,6 +1,13 @@
 .openai-general-panel__default-state-icon:before,
 .openai-general-panel__empty-state-icon:before,
-.openai-general-panel__loading-state-icon:before {
+.openai-general-panel__loading-state-icon:before,
+.openai-create-picture-dialog__default-state-icon:before,
+.openai-create-picture-dialog__empty-state-icon:before,
+.openai-create-picture-dialog__images-loading-state-icon:before,
+.openai-create-picture-dialog__images-loaded-state-icon:before,
+.openai-create-picture-dialog__content-creation-in-progress-state-icon:before,
+.openai-create-picture-dialog__content-creation-success-state-icon:before,
+.openai-create-picture-dialog__content-creation-error-state-icon:before {
   content: "";
   display: block;
   width: 100px;
@@ -10,7 +17,6 @@
   background-size: contain;
   opacity: .1;
   margin: 40px auto auto;
-
 }
 
 @keyframes loaderAnimation {
@@ -28,19 +34,30 @@
   }
 }
 
-.openai-general-panel__default-state-icon:before {
+.openai-general-panel__default-state-icon:before,
+.openai-create-picture-dialog__default-state-icon:before {
   background-image: url('../img/openai.svg');
 }
 
-.openai-general-panel__empty-state-icon:before {
+.openai-general-panel__empty-state-icon:before,
+.openai-create-picture-dialog__empty-state-icon:before {
   background-image: url('../img/openai-no-result.svg');
 }
 
-.openai-general-panel__loading-state-icon:before {
+.openai-general-panel__loading-state-icon:before,
+.openai-create-picture-dialog__images-loading-state-icon:before,
+.openai-create-picture-dialog__content-creation-in-progress-state-icon:before {
   background-image: url('../img/openai.svg');
   animation: loaderAnimation 2s infinite linear;
 }
 
+.openai-create-picture-dialog__content-creation-success-state-icon:before {
+  background-image: url('../img/success.svg');
+}
+
+.openai-create-picture-dialog__content-creation-error-state-icon:before {
+  background-image: url('../img/error.svg');
+}
 
 .openai-general-panel__credit_link {
   text-align: center;
@@ -75,4 +92,29 @@
 
 .openai-chatgpt-settings.x-collapsed {
   border-color: transparent;
+}
+
+.openai-thumbnails {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  gap: 10px;
+}
+
+.openai-thumbnails__item {
+  border: 1px solid #9f9c9c;
+  background-color: #f1f1f1;
+  padding: 3px;
+}
+
+.openai-thumbnails__item.x-item-selected {
+  border-color: #006CAE;
+  background-color: #C4E9FF;
+}
+
+.openai-thumbnails img {
+  width: 100%;
+  height: 100%;
 }

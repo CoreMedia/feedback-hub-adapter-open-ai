@@ -28,6 +28,7 @@ importers:
       '@coremedia/studio-client.client-core': 2207.1.0
       '@coremedia/studio-client.client-core-impl': 2207.1.0
       '@coremedia/studio-client.core-icons': 2207.1.0
+      '@coremedia/studio-client.ext.base-components': 2207.1.0
       '@coremedia/studio-client.ext.ui-components': 2207.1.0
       '@coremedia/studio-client.feedback-hub-models': 2207.1.0
       '@coremedia/studio-client.main.editor-components': 2207.1.0
@@ -47,6 +48,7 @@ importers:
       '@coremedia/studio-client.client-core': 2207.1.0
       '@coremedia/studio-client.client-core-impl': 2207.1.0
       '@coremedia/studio-client.core-icons': 2207.1.0
+      '@coremedia/studio-client.ext.base-components': 2207.1.0
       '@coremedia/studio-client.ext.ui-components': 2207.1.0
       '@coremedia/studio-client.feedback-hub-models': 2207.1.0
       '@coremedia/studio-client.main.editor-components': 2207.1.0

@@ -38,6 +38,28 @@ interface FeedbackHubOpenAIStudioPlugin_properties {
   OpenAI_settings_temperature_tooltip: string;
   OpenAI_settings_maxLength_fieldLabel: string;
   OpenAI_settings_maxLength_tooltip: string;
+
+  OpenAI_createPicturesMenuItem_text: string;
+
+  OpenAI_createPicturesDialog_title: string;
+  OpenAI_createPicturesDialog_prompt_fieldLabel: string;
+  OpenAI_createPicturesDialog_prompt_emptyText: string;
+  OpenAI_createPicturesDialog_generateImagesBtn_text: string;
+  OpenAI_createPicturesDialog_defaultState_title: string;
+  OpenAI_createPicturesDialog_defaultState_text: string;
+  OpenAI_createPicturesDialog_imagesLoading_title: string;
+  OpenAI_createPicturesDialog_imagesLoading_text: string;
+  OpenAI_createPicturesDialog_results_title: string;
+  OpenAI_createPicturesDialog_emptyState_title: string;
+  OpenAI_createPicturesDialog_emptyState_text: string;
+  OpenAI_createPicturesDialog_creatingContentState_title: string;
+  OpenAI_createPicturesDialog_creatingContentState_text: string;
+  OpenAI_createPicturesDialog_contentCreationSuccessState_title: string;
+  OpenAI_createPicturesDialog_contentCreationSuccessState_text: string;
+  OpenAI_createPicturesDialog_contentCreationErrorState_title: string;
+  OpenAI_createPicturesDialog_contentCreationErrorState_text: string;
+  OpenAI_createPicturesDialog_openInTab_label: string;
+  OpenAI_createPicturesDialog_createBtn_text: string;
 }
 
 /**
@@ -67,7 +89,27 @@ const FeedbackHubOpenAIStudioPlugin_properties: FeedbackHubOpenAIStudioPlugin_pr
   OpenAI_settings_temperature_fieldLabel: "Temperature",
   OpenAI_settings_temperature_tooltip: "Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.",
   OpenAI_settings_maxLength_fieldLabel: "Maximum length",
-  OpenAI_settings_maxLength_tooltip: "The maximum length of tokens to generate."
+  OpenAI_settings_maxLength_tooltip: "The maximum length of tokens to generate.",
+  OpenAI_createPicturesMenuItem_text: "Create Pictures with AI",
+  OpenAI_createPicturesDialog_title: "Create Pictures with DALL·E",
+  OpenAI_createPicturesDialog_prompt_fieldLabel: "Prompt",
+  OpenAI_createPicturesDialog_prompt_emptyText: "Example: 'An astronaut riding a horse in a photorealistic style'",
+  OpenAI_createPicturesDialog_generateImagesBtn_text: "Generate Images",
+  OpenAI_createPicturesDialog_defaultState_title: "Generate Images",
+  OpenAI_createPicturesDialog_defaultState_text: "Enter a prompt and press 'Generate Images'. Afterwards you can select one or more images to create.",
+  OpenAI_createPicturesDialog_imagesLoading_title: "Loading ...",
+  OpenAI_createPicturesDialog_imagesLoading_text: "Please wait while images are generated.",
+  OpenAI_createPicturesDialog_results_title: "Generated Images",
+  OpenAI_createPicturesDialog_emptyState_title: "No result",
+  OpenAI_createPicturesDialog_emptyState_text: "Please rephrase your prompt and try again.",
+  OpenAI_createPicturesDialog_creatingContentState_title: "Creating pictures ...",
+  OpenAI_createPicturesDialog_creatingContentState_text: "Please wait while pictures are created.",
+  OpenAI_createPicturesDialog_contentCreationSuccessState_title: "Done",
+  OpenAI_createPicturesDialog_contentCreationSuccessState_text: "Pictures have been created.",
+  OpenAI_createPicturesDialog_contentCreationErrorState_title: "Error",
+  OpenAI_createPicturesDialog_contentCreationErrorState_text: "Something went wrong. Please try again later.",
+  OpenAI_createPicturesDialog_openInTab_label: "Open pictures after creation",
+  OpenAI_createPicturesDialog_createBtn_text: "Create"
 };
 
 export default FeedbackHubOpenAIStudioPlugin_properties;
