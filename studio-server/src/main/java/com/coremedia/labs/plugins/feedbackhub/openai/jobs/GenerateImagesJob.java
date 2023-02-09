@@ -68,11 +68,15 @@ public class GenerateImagesJob implements Job {
 
   public int getNumberOfImages() {
     if (numberOfImages < 1 || numberOfImages > 10) {
-      int n = getSettings().getNumberOfImagesToGenerate();
-      if (n < 1 || n > 10) {
-        n = DEFAULT_NUMBER_OF_IMAGES;
+      try {
+        int n = getSettings().getNumberOfImagesToGenerate();
+        if (n < 1 || n > 10) {
+          n = DEFAULT_NUMBER_OF_IMAGES;
+        }
+        return n;
+      } catch (Exception e) {
+        return DEFAULT_NUMBER_OF_IMAGES;
       }
-      return n;
     }
     return numberOfImages;
   }
