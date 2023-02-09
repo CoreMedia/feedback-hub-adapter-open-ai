@@ -14,6 +14,9 @@ import AddItemsPlugin from "@coremedia/studio-client.ext.ui-components/plugins/A
 import Component from "@jangaroo/ext-ts/Component";
 import OpenAICreatePicturesMenuItem from "./custom/newcontent/OpenAICreatePicturesMenuItem";
 import Separator from "@jangaroo/ext-ts/menu/Separator";
+import QuickCreateLinklistMenu
+  from "@coremedia/studio-client.main.editor-components/sdk/quickcreate/QuickCreateLinklistMenu";
+import AddOpenAIQuickCreateItemPlugin from "./custom/plugins/AddOpenAIQuickCreateItemPlugin";
 
 interface FeedbackHubOpenAIStudioPluginConfig extends Config<StudioPlugin> {
 }
@@ -38,6 +41,12 @@ class FeedbackHubOpenAIStudioPlugin extends StudioPlugin {
                   Config(Component, { itemId: NewContentMenu.DYNAMIC_SEPARATOR }),
                 ],
               })
+            ]
+          }),
+
+          Config(QuickCreateLinklistMenu, {
+            plugins: [
+              Config(AddOpenAIQuickCreateItemPlugin)
             ]
           })
         ],

@@ -46,8 +46,12 @@ import ToolbarSkin from "@coremedia/studio-client.ext.ui-components/skins/Toolba
 import Labelable from "@jangaroo/ext-ts/form/Labelable";
 import CoreIcons_properties from "@coremedia/studio-client.core-icons/CoreIcons_properties";
 import FeedbackHubOpenAIStudioPlugin_properties from "../../FeedbackHubOpenAIStudioPlugin_properties";
+import ContentPropertyNames from "@coremedia/studio-client.cap-rest-client/content/ContentPropertyNames";
+import Content from "@coremedia/studio-client.cap-rest-client/content/Content";
 
 interface OpenAICreatePicturesDialogConfig extends Config<StudioDialog>, Partial<Pick<OpenAICreatePicturesDialog,
+  "bindTo" |
+  "propertyName" |
   "positionFun"
 >> {}
 
@@ -55,6 +59,8 @@ class OpenAICreatePicturesDialog extends StudioDialog {
 
   declare Config: OpenAICreatePicturesDialogConfig;
 
+  bindTo: ValueExpression = null;
+  propertyName: string = null;
   positionFun: AnyFunction = null;
 
   private promptExpression: ValueExpression;
@@ -65,7 +71,6 @@ class OpenAICreatePicturesDialog extends StudioDialog {
   private openInTabExpression: ValueExpression;
 
   static readonly BLOCK_CLASS_NAME: string = "openai-create-picture-dialog";
-
   static readonly DEFAULT_STATE: string = "default-state";
   static readonly EMPTY_STATE: string = "empty-state";
   static readonly IMAGES_LOADING_STATE: string = "images-loading-state";
@@ -424,6 +429,16 @@ class OpenAICreatePicturesDialog extends StudioDialog {
       OpenAIService.createPicturesForUrls(imageUrls, folder).then((contentList) => {
         this.getActiveStateExpression().setValue(OpenAICreatePicturesDialog.CONTENT_CREATION_SUCCESS_STATE);
         const openInTab = this.getOpenInTabExpression().getValue();
+
+        // add created content to bound content property if provided
+        if (this.bindTo && this.propertyName) {
+          let linkPropertyVE = this.bindTo.extendBy(ContentPropertyNames.PROPERTIES, this.propertyName);
+          linkPropertyVE.loadValue((currentLinks: Content[]) => {
+            let newLinks = contentList.concat(currentLinks);
+            linkPropertyVE.setValue(newLinks);
+          });
+        }
+
         if (contentList && openInTab) {
           editorContext._.getContentTabManager().openDocuments(contentList, true);
         }

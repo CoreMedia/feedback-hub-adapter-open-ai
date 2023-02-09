@@ -27,7 +27,11 @@ class OpenAICreatePicturesMenuItem extends Item {
         iconCls: CoreIcons_properties.create_type_picture,
         toggleDialog: true,
         text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_createPicturesMenuItem_text,
-        dialog: Config(OpenAICreatePicturesDialog, { positionFun: bind(this$, this$.getPosition) }),
+        dialog: Config(OpenAICreatePicturesDialog, {
+          bindTo: config.bindTo,
+          propertyName: config.propertyName,
+          positionFun: bind(this$, this$.getPosition)
+        }),
       }),
 
     }), config));
