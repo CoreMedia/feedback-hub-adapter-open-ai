@@ -16,7 +16,7 @@ public class GenerateTextJobFactory implements JobFactory {
 
   @Override
   public boolean accepts(@NonNull String jobType) {
-    return "generateText".equals(jobType);
+    return "OpenAIGenerateText".equals(jobType);
   }
 
   @NonNull

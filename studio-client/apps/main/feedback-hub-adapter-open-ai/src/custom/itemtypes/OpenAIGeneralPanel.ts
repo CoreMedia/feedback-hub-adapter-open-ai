@@ -330,7 +330,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
             contentId: content.getId(),
           };
 
-          const JOB_TYPE = "ApplyTextToContent";
+          const JOB_TYPE = "OpenAIApplyTextToContent";
           console.log(`request params: ${params}`);
           jobService._.executeJob(
             new GenericRemoteJob(JOB_TYPE, params),
@@ -362,7 +362,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
       groupId: this.feedbackGroup.name,
     };
 
-    const JOB_TYPE = "generateText";
+    const JOB_TYPE = "OpenAIGenerateText";
     console.log(`request params: ${params}`);
 
     jobService._.executeJob(

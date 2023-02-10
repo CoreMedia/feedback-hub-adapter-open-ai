@@ -16,7 +16,7 @@ public class ApplyTextToContentJobFactory implements JobFactory {
 
   @Override
   public boolean accepts(@NonNull String jobType) {
-    return "ApplyTextToContent".equals(jobType);
+    return "OpenAIApplyTextToContent".equals(jobType);
   }
 
   @NonNull
