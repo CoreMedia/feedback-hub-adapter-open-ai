@@ -18,7 +18,7 @@ The following use-cases are covered:
 <img src="docs/images/openAITextGenerating.gif" alt="Text Generation with OpenAI" width="800" height="439">
 
 ## Image Generation based on a natural language instruction.
-<img src="docs/images/dall-e.gif" alt=“Image Generation with OpenAI” width="800" height="439">
+<img src="docs/images/dall-e.gif" alt="Image Generation with OpenAI" width="800" height="439">
 
 ___
 
