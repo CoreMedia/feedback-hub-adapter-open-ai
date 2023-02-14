@@ -11,6 +11,14 @@ If a project is inactive it means that the development has been discontinued and
 
 # Feedback Hub Adapter for OpenAI
 
+This is a Feedback Hub integration for OpenAI GPT-3.
+The following use-cases are covered:
+
+## Text Generation based on a given prompt
+<img src="docs/images/openAITextGenerating.gif" alt="Text Generation with OpenAI" width="800" height="439">
+
+## Image Generation based on a natural language instruction.
+<img src="docs/images/dall-e.gif" alt=“Image Generation with OpenAI” width="800" height="439">
 
 ___
 
@@ -25,47 +33,7 @@ if your CoreMedia version is 2107.1, checkout the branch 2107.1.
 ## Getting Started
 
 This repository is a plugin for the CoreMedia Blueprint workspace.
-To include it, you must perform the following steps:
-
-- Clone this project
-- Build it via `mvn clean install`
-
-
-#### Studio Server Development
-
-To debug the Java code of you plugin, start the Studio Server of your CoreMedia Blueprint
-workspace in __debug__ mode and pass the testsystem host name and the location
-of the plugin directory where the zip archive of this plugin is located.
-For example: 
-
-`mvnDebug spring-boot:run -Dinstallation.host=my-test-system.vm -Dplugins.directories=C:/workspace/plugins`
-
-Afterwards, create a "Remote Debug" configuration in IDEA with transport `Socket`,
-host `localhost` and port `8000`. The VM parameter should look like this:
-
-`-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000`
-
-In IDEA, it should look like this:
-
-![Feedback Rendering](docs/images/debug.png "IDEA Debug Configuration")
-
-When executed, the Studio server will start up and you will be able to 
-debug your plugin.
-
-
-#### Studio Client Development
-
-The Studio client development for plugins is similar to the regular Studio
-development. Ensure that the Studio proxy is started for the main Studio.
-
-Afterwards, execute
-
-`pnpm -r start` 
-
-in the __studio-client__ folder of your plugin. You will see that a proxy
-server is started under which the Studio is available. The additional Studio
-sources of the plugin will be available there.
-    
+To include it, please follow the described steps in the [Feedback Hub Tutorial](https://github.com/CoreMedia/feedback-hub-adapter-tutorial)!
 
 ## CoreMedia Labs
 
