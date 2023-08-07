@@ -22,7 +22,6 @@ import VBoxLayout from "@jangaroo/ext-ts/layout/container/VBox";
 import { bind } from "@jangaroo/runtime";
 import Config from "@jangaroo/runtime/Config";
 import ConfigUtils from "@jangaroo/runtime/ConfigUtils";
-import trace from "@jangaroo/runtime/trace";
 import FeedbackHubOpenAIStudioPlugin_properties from "../../FeedbackHubOpenAIStudioPlugin_properties";
 import MessageBoxUtil from "@coremedia/studio-client.ext.ui-components/messagebox/MessageBoxUtil";
 import BaseField from "@jangaroo/ext-ts/form/field/Base";
@@ -331,7 +330,6 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
           };
 
           const JOB_TYPE = "OpenAIApplyTextToContent";
-          console.log(`request params: ${params}`);
           jobService._.executeJob(
             new GenericRemoteJob(JOB_TYPE, params),
             //on success
@@ -339,7 +337,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
             },
             //on error
             (error: JobExecutionError): void => {
-              trace("[ERROR]", "Error applying text to content: " + error);
+              console.log("[ERROR]", "Error applying text to content: " + error);
             },
           );
         }
@@ -363,7 +361,6 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
     };
 
     const JOB_TYPE = "OpenAIGenerateText";
-    console.log(`request params: ${params}`);
 
     jobService._.executeJob(
       new GenericRemoteJob(JOB_TYPE, params),
@@ -377,7 +374,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
       //on error
       (error: JobExecutionError): void => {
         this.getActiveStateExpression().setValue(OpenAIGeneralPanel.EMPTY_STATE);
-        trace("[ERROR]", "Error applying question: " + error);
+        console.log("[ERROR]", "Error applying question: " + error);
       },
     );
 

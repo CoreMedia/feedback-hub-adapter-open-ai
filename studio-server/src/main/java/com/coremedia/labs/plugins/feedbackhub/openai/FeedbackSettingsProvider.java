@@ -1,6 +1,7 @@
 package com.coremedia.labs.plugins.feedbackhub.openai;
 
 import com.coremedia.cap.common.CapConnection;
+import com.coremedia.cap.content.wrapper.impl.TypedCapStructWrapperFactoryImpl;
 import com.coremedia.cap.multisite.Site;
 import com.coremedia.cap.multisite.SitesService;
 import com.coremedia.feedbackhub.Binding;
@@ -37,7 +38,8 @@ public class FeedbackSettingsProvider {
 
   public <T> T getSettings(@NonNull String groupId, @Nullable String siteId) {
     Site site = sitesService.getSite(siteId);
-    BindingsLookup bindingsLookup = new BindingsLookup(capConnection.getContentRepository(), sitesService, bindingProperties);
+
+    BindingsLookup bindingsLookup = new BindingsLookup(capConnection.getContentRepository(), sitesService, bindingProperties, new TypedCapStructWrapperFactoryImpl());
 
     Optional<Binding> optionalBinding = bindingsLookup.getBindings()
             .stream()
