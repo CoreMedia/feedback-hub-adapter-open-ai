@@ -1,6 +1,6 @@
 package com.coremedia.labs.plugins.feedbackhub.openai.api;
 
-import com.theokanning.openai.OpenAiService;
+import com.theokanning.openai.service.OpenAiService;
 
 import java.time.Duration;
 

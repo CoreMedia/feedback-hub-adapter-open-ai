@@ -19,7 +19,7 @@ import TextField from "@jangaroo/ext-ts/form/field/Text";
 import AnchorLayout from "@jangaroo/ext-ts/layout/container/Anchor";
 import HBoxLayout from "@jangaroo/ext-ts/layout/container/HBox";
 import VBoxLayout from "@jangaroo/ext-ts/layout/container/VBox";
-import { bind } from "@jangaroo/runtime";
+import {bind} from "@jangaroo/runtime";
 import Config from "@jangaroo/runtime/Config";
 import ConfigUtils from "@jangaroo/runtime/ConfigUtils";
 import FeedbackHubOpenAIStudioPlugin_properties from "../../FeedbackHubOpenAIStudioPlugin_properties";
@@ -116,7 +116,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                     }),
                   ],
                 }),
-                Config(Container, { height: 6 }),
+                Config(Container, {height: 6}),
                 Config(Container, {
                   items: [
                     Config(Button, {
@@ -126,10 +126,10 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                       text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_button_label
                     }),
                   ],
-                  layout: Config(VBoxLayout, { align: "end" }),
+                  layout: Config(VBoxLayout, {align: "end"}),
                 })
               ],
-              layout: Config(VBoxLayout, { align: "stretch" }),
+              layout: Config(VBoxLayout, {align: "stretch"}),
             }),
           ]
         }),
@@ -139,7 +139,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
             Config(TextField, {
               flex: 1,
               cls: "openai-input-text-field",
-              allowBlank: false,
+              itemId: "questionField",
               blankText: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_instruction_blank_validation_text,
               emptyText: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_instruction_emptyText,
               plugins: [
@@ -156,7 +156,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                 }
               },
             }),
-            Config(Container, { width: 6 }),
+            Config(Container, {width: 6}),
             Config(Button, {
               formBind: true,
               ui: ButtonSkin.MATERIAL_PRIMARY.getSkin(),
@@ -170,99 +170,114 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
           }),
         }),
 
-        Config(Spacer, { height: 10 }),
+        Config(Spacer, {height: 10}),
 
         Config(CollapsiblePanel, {
           title: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_title,
           cls: "openai-chatgpt-settings",
           collapsible: true,
           collapsed: true,
-          bodyPadding: 0,
           items: [
-            // Temperature
-            Config(SliderField, {
-              fieldLabel: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_temperature_fieldLabel,
-              ui: SliderSkin.DEFAULT.getSkin(),
-              width: 200,
-              minValue: 0.0,
-              maxValue: 1.0,
-              increment: 0.01,
-              decimalPrecision: 2,
-              labelSeparator: "",
-              plugins: [
-                Config(BindPropertyPlugin, {
-                  componentProperty: "value",
-                  bindTo: this$.getTemperatureExpression(),
-                  bidirectional: true,
+            Config(Container, {
+              items: [
+                // Temperature
+                Config(SliderField, {
+                  fieldLabel: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_temperature_fieldLabel,
+                  ui: SliderSkin.DEFAULT.getSkin(),
+                  flex: 1,
+                  minValue: 0.0,
+                  maxValue: 1.0,
+                  increment: 0.01,
+                  decimalPrecision: 2,
+                  labelSeparator: "",
+                  plugins: [
+                    Config(BindPropertyPlugin, {
+                      componentProperty: "value",
+                      bindTo: this$.getTemperatureExpression(),
+                      bidirectional: true,
+                    }),
+                    Config(AddQuickTipPlugin, {
+                      text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_temperature_tooltip
+                    })
+                  ],
                 }),
-                Config(AddQuickTipPlugin, {
-                  text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_temperature_tooltip
-                })
-              ],
-            }),
-            Config(NumberField, {
-              width: 40,
-              allowDecimals: true,
-              minValue: 0,
-              maxValue: 1,
-              allowBlank: false,
-              hideTrigger: true,
-              plugins: [
-                Config(BindPropertyPlugin, {
-                  componentProperty: "value",
-                  bindTo: this$.getTemperatureExpression(),
-                  bidirectional: true,
+                Config(NumberField, {
+                  width: 40,
+                  allowDecimals: true,
+                  minValue: 0,
+                  maxValue: 1,
+                  allowBlank: false,
+                  hideTrigger: true,
+                  plugins: [
+                    Config(BindPropertyPlugin, {
+                      componentProperty: "value",
+                      bindTo: this$.getTemperatureExpression(),
+                      bidirectional: true,
+                    }),
+                    Config(AddQuickTipPlugin, {
+                      text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_temperature_tooltip
+                    })
+                  ],
                 }),
-                Config(AddQuickTipPlugin, {
-                  text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_temperature_tooltip
-                })
               ],
+                layout: Config(HBoxLayout, {
+                  align: "stretch",
+                  pack: "start",
+                }),
             }),
 
-            Config(Spacer, { width: 30 }),
+            Config(Spacer, {height: 24}),
 
-            // Maximum length
-            Config(SliderField, {
-              fieldLabel: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_maxLength_fieldLabel,
-              ui: SliderSkin.DEFAULT.getSkin(),
-              width: 200,
-              minValue: 1,
-              maxValue: 4000,
-              increment: 1,
-              labelSeparator: "",
-              plugins: [
-                Config(BindPropertyPlugin, {
-                  componentProperty: "value",
-                  bindTo: this$.getMaximumLengthExpression(),
-                  bidirectional: true,
+            Config(Container, {
+              items: [
+                // Maximum length
+                Config(SliderField, {
+                  fieldLabel: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_maxLength_fieldLabel,
+                  ui: SliderSkin.DEFAULT.getSkin(),
+                  flex: 1,
+                  minValue: 1,
+                  maxValue: 4000,
+                  increment: 1,
+                  labelSeparator: "",
+                  plugins: [
+                    Config(BindPropertyPlugin, {
+                      componentProperty: "value",
+                      bindTo: this$.getMaximumLengthExpression(),
+                      bidirectional: true,
+                    }),
+                    Config(AddQuickTipPlugin, {
+                      text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_maxLength_tooltip
+                    })
+                  ],
                 }),
-                Config(AddQuickTipPlugin, {
-                  text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_maxLength_tooltip
-                })
-              ],
-            }),
-            Config(NumberField, {
-              width: 40,
-              allowDecimals: false,
-              minValue: 1,
-              maxValue: 4000,
-              allowBlank: false,
-              hideTrigger: true,
-              plugins: [
-                Config(BindPropertyPlugin, {
-                  componentProperty: "value",
-                  bindTo: this$.getMaximumLengthExpression(),
-                  bidirectional: true,
+                Config(NumberField, {
+                  width: 40,
+                  allowDecimals: false,
+                  minValue: 1,
+                  maxValue: 4000,
+                  allowBlank: false,
+                  hideTrigger: true,
+                  plugins: [
+                    Config(BindPropertyPlugin, {
+                      componentProperty: "value",
+                      bindTo: this$.getMaximumLengthExpression(),
+                      bidirectional: true,
+                    }),
+                    Config(AddQuickTipPlugin, {
+                      text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_maxLength_tooltip
+                    })
+                  ],
                 }),
-                Config(AddQuickTipPlugin, {
-                  text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_settings_maxLength_tooltip
-                })
               ],
+              layout: Config(HBoxLayout, {
+                align: "stretch",
+                pack: "start",
+              }),
             }),
           ],
-          layout: Config(HBoxLayout, {
-            align: "middle",
-            pack: "center",
+          layout: Config(VBoxLayout, {
+            align: "stretch",
+            pack: "start",
           }),
         }),
         Config(DisplayField, {
@@ -272,7 +287,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
         })
       ],
       defaultType: Component.xtype,
-      defaults: Config<Component>({ anchor: "100%" }),
+      defaults: Config<Component>({anchor: "100%"}),
       layout: Config(AnchorLayout),
       plugins: [
         Config(VerticalSpacingPlugin),
@@ -345,12 +360,18 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
   }
 
   applyQuestion(): void {
+    const input = this.getQuestionInputExpression().getValue();
+    if (!input || input.trim().length === 0) {
+      this.getActiveStateExpression().setValue(OpenAIGeneralPanel.DEFAULT_STATE);
+      return;
+    }
+
     const content: Content = this.contentExpression.getValue();
     let siteId = editorContext._.getSitesService().getSiteIdFor(content);
     if (!siteId) {
       siteId = "all";
     }
-    const input = this.getQuestionInputExpression().getValue();
+
     const params: Record<string, any> = {
       prompt: input,
       temperature: this.getTemperatureExpression().getValue(),

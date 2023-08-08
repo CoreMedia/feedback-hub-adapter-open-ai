@@ -88,7 +88,7 @@ const FeedbackHubOpenAIStudioPlugin_properties: FeedbackHubOpenAIStudioPlugin_pr
   OpenAI_settings_title: "AI Model Configuration",
   OpenAI_settings_temperature_fieldLabel: "Temperature",
   OpenAI_settings_temperature_tooltip: "Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.",
-  OpenAI_settings_maxLength_fieldLabel: "Maximum length",
+  OpenAI_settings_maxLength_fieldLabel: "Maximum Length",
   OpenAI_settings_maxLength_tooltip: "The maximum length of tokens to generate.",
   OpenAI_createPicturesMenuItem_text: "Create Pictures with AI",
   OpenAI_createPicturesDialog_title: "Create Pictures with DALL·E",
