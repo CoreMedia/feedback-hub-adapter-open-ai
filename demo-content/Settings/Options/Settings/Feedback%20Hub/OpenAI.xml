@@ -13,10 +13,15 @@
 <Struct>
   <StringProperty Name="apiKey">YOUR API KEY</StringProperty>
   <StringProperty Name="languageModel">text-davinci-003</StringProperty>
-  <StringProperty Name="sourceProperties">detailText</StringProperty>
+  <!-- These are the default settings and can be omitted -->
+  <StringProperty Name="textProperty">detailText</StringProperty>
+  <StringProperty Name="titleProperty">title</StringProperty>
+  <StringProperty Name="keywordsProperty">keywords</StringProperty>
+  <StringProperty Name="headlineProperty">htmlTitle</StringProperty>
+  <StringProperty Name="metadataProperty">htmlDescription</StringProperty>
   <IntProperty Name="maxTokens">1000</IntProperty>
+  <IntProperty Name="temperature">30</IntProperty>
   <IntProperty Name="timeoutInSeconds">30</IntProperty>
-
 </Struct>
 </StructProperty>
 </Struct></settings>

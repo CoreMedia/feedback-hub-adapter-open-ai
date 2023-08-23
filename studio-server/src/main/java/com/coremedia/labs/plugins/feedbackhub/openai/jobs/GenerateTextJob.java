@@ -16,24 +16,28 @@ import com.theokanning.openai.completion.chat.ChatMessageRole;
 import com.theokanning.openai.service.OpenAiService;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class GenerateTextJob implements Job {
   private static final Logger LOG = LoggerFactory.getLogger(GenerateTextJob.class);
 
+  public static final String ACTION_SUMMARIZE = "summarize";
+  public static final String ACTION_GENERATE_TITLE = "title";
+  public static final String ACTION_GENERATE_HEADLINE = "headline";
+  public static final String ACTION_GENERATE_METADATA = "metadata";
+  public static final String ACTION_EXTRACT_KEYWORDS = "keywords";
 
   private String prompt;
-  private Double temperature;
-  private int maxLength;
   private String contentId;
   private String siteId;
   private String groupId;
+  private String actionId;
 
   private final FeedbackSettingsProvider settingsProvider;
 
@@ -44,16 +48,6 @@ public class GenerateTextJob implements Job {
   @SerializedName("prompt")
   public void setPrompt(String prompt) {
     this.prompt = prompt;
-  }
-
-  @SerializedName("temperature")
-  public void setTemperature(Double temperature) {
-    this.temperature = temperature;
-  }
-
-  @SerializedName("maxLength")
-  public void setMaxLength(int maxLength) {
-    this.maxLength = maxLength;
   }
 
   @SerializedName("contentId")
@@ -71,37 +65,50 @@ public class GenerateTextJob implements Job {
     this.groupId = groupId;
   }
 
+  @SerializedName("actionId")
+  public void setActionId(String actionId) {
+    this.actionId = actionId;
+  }
+
   @Nullable
   @Override
   public Object call(@NonNull JobContext jobContext) throws JobExecutionException {
     String model = null;
     String text = null;
 
+    OpenAISettings settings = getSettings();
+    String updatedPrompt = applyUserAction(prompt, actionId);
+
     try {
-      OpenAISettings settings = getSettings();
       model = settings.getLanguageModel();
-      OpenAiService client = OpenAIClientProvider.getClient(settings.getApiKey(), Duration.ofSeconds(settings.getTimeoutInSeconds()));
+      Integer timeoutInSeconds = settings.getTimeoutInSeconds() != null ? settings.getTimeoutInSeconds() : 30;
+      OpenAiService client = OpenAIClientProvider.getClient(settings.getApiKey(), Duration.ofSeconds(timeoutInSeconds));
+
+      int temparature = (settings.getTemperature() != null ? settings.getTemperature() : 30) / 100;
+      int maxTokens = settings.getMaxTokens() != null ? settings.getMaxTokens() : 1000;
 
       if (model.contains("4") || model.contains("3.5")) {
         List<ChatMessage> messages = new ArrayList<>();
-        ChatMessage userMessage = new ChatMessage(ChatMessageRole.USER.value(), prompt);
+        ChatMessage userMessage = new ChatMessage(ChatMessageRole.USER.value(), updatedPrompt);
         messages.add(userMessage);
 
         ChatCompletionRequest request = ChatCompletionRequest.builder()
           .messages(messages)
           .model(model)
-          .maxTokens(maxLength)
-          .temperature(temperature)
+          .user(String.valueOf(contentId))
+          .maxTokens(maxTokens)
+          .temperature((double) temparature)
           .build();
 
         ChatCompletionChoice chatCompletionChoice = client.createChatCompletion(request).getChoices().get(0);
         text = chatCompletionChoice.getMessage().getContent();
       } else {
         CompletionRequest request = CompletionRequest.builder()
-          .prompt(prompt)
+          .prompt(updatedPrompt)
           .model(model)
-          .maxTokens(maxLength)
-          .temperature(temperature)
+          .user(String.valueOf(contentId))
+          .maxTokens(maxTokens)
+          .temperature((double) temparature)
           .echo(false)
           .build();
 
@@ -118,6 +125,40 @@ public class GenerateTextJob implements Job {
     } catch (Exception e) {
       LOG.error("Failed to generate text with language model \"{}\" for given prompt: \"{}\" on content {}: {}", model, prompt, contentId, e.getMessage());
       throw new JobExecutionException(GenericJobErrorCode.FAILED, e.getMessage());
+    }
+  }
+
+  /**
+   * Depending on the user action, we do a little prompt engineering to customize the output.
+   *
+   * @param prompt   the question the user has entered OR the text OpenAI has generated for the original question
+   * @param actionId an action if the user has already entered a question or null if the first AI is given
+   * @return the modified prompt with optional additional commands
+   */
+  private String applyUserAction(String prompt, String actionId) {
+    if(StringUtils.isEmpty(actionId)) {
+      return prompt;
+    }
+
+    switch (actionId) {
+      case ACTION_SUMMARIZE: {
+        return "Summarize the following text:\n\n" + prompt;
+      }
+      case ACTION_EXTRACT_KEYWORDS: {
+        return "Extract the keywords from the following text:\n\n" + prompt;
+      }
+      case ACTION_GENERATE_HEADLINE: {
+        return "Create an article headline from the following text:\n\n" + prompt;
+      }
+      case ACTION_GENERATE_METADATA: {
+        return "Summarize the following text with a maximum length of 160 characters:\n\n" + prompt;
+      }
+      case ACTION_GENERATE_TITLE: {
+        return "Generate a title from the following text with a maximum length of 60 characters:\n\n" + prompt;
+      }
+      default: {
+        throw new UnsupportedOperationException("Invalid actionId '"  + actionId + "'");
+      }
     }
   }
 

@@ -7,5 +7,5 @@ import com.coremedia.feedbackhub.adapter.FeedbackHubErrorCode;
  */
 public enum OpenAIFeedbackHubErrorCode implements FeedbackHubErrorCode {
   API_KEY_NOT_SET,
-
+  LANGUAGE_MODEL_NOT_SET,
 }

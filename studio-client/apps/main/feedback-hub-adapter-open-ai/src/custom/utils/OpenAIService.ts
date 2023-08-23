@@ -5,6 +5,12 @@ import JobExecutionError from "@coremedia/studio-client.cap-rest-client/common/J
 import Content from "@coremedia/studio-client.cap-rest-client/content/Content";
 
 class OpenAIService {
+  static ACTION_SUMMARIZE = "summarize";
+  static ACTION_GENERATE_TITLE = "title";
+  static ACTION_GENERATE_HEADLINE = "headline";
+  static ACTION_GENERATE_METADATA = "metadata";
+  static ACTION_EXTRACT_KEYWORDS = "keywords";
+
 
   public static generateImages(prompt: string): Promise<string[]> {
     return new Promise((resolve: AnyFunction, reject: AnyFunction) => {

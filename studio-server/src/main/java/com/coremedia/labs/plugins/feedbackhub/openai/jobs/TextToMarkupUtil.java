@@ -40,17 +40,14 @@ public class TextToMarkupUtil {
     String withTransformedNewLines = formatNewLines(withDFormattedLists);
     String transformedText = formatParagraphs(withTransformedNewLines);
 
-
     return xmlStart + transformedText + xmlEnd;
   }
 
   @NotNull
   private static String formatParagraphs(String result) {
     return stream(result.split("<br/><br/>"))
-
       .map(paragraph -> {
         String trimmedLine = paragraph.replaceFirst("<br/>", "");
-
         if (trimmedLine.startsWith(ORDERED_LIST_OPENING_TAG)) {
           return trimmedLine;
         }
