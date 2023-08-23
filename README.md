@@ -1,6 +1,6 @@
 ![CoreMedia Labs Logo](https://documentation.coremedia.com/badges/banner_coremedia_labs_wide.png "CoreMedia Labs Logo")
 
-![CoreMedia Content Cloud Version](https://img.shields.io/static/v1?message=2210&label=CoreMedia%20Content%20Cloud&style=for-the-badge&labelColor=666666&color=672779 
+![CoreMedia Content Cloud Version](https://img.shields.io/static/v1?message=2307&label=CoreMedia%20Content%20Cloud&style=for-the-badge&labelColor=666666&color=672779 
 "This badge shows the CoreMedia version this project is compatible with. 
 Please read the versioning section of the project to see what other CoreMedia versions are supported and how to find them."
 )
@@ -11,14 +11,11 @@ If a project is inactive it means that the development has been discontinued and
 
 # Feedback Hub Adapter for OpenAI
 
-This is a Feedback Hub integration for OpenAI GPT-3.
+This is a Feedback Hub integration for OpenAI GPT-3 and GPT-4.
 The following use-cases are covered:
 
-## Text Generation based on a given prompt
-<img src="docs/images/openAITextGenerating.gif" alt="Text Generation with OpenAI" width="800" height="439">
-
-## Image Generation based on a natural language instruction.
-<img src="docs/images/dall-e.gif" alt="Image Generation with OpenAI" width="800" height="439">
+- Text Generation based on a given prompt.
+- Applying generated text to different content property field. 
 
 ___
 
@@ -28,7 +25,7 @@ To find out which CoreMedia versions are supported by this project,
 please take look at the releases section or on the existing branches. 
 To find the matching version of your CoreMedia system, please checkout the branch 
 with the corresponding name. For example, 
-if your CoreMedia version is 2107.1, checkout the branch 2107.1.
+if your CoreMedia version is 2307.1, checkout the branch 2307.1.
 
 ## Getting Started
 
