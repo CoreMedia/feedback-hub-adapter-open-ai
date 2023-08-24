@@ -79,7 +79,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
               text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_default_state_text,
             }),
             Config(EmptyContainer, {
-              height: 548,
+              height: 570,
               itemId: OpenAIGeneralPanel.EMPTY_STATE,
               iconElementName: "empty-state-icon",
               bemBlockName: OpenAIGeneralPanel.BLOCK_CLASS_NAME,
@@ -88,7 +88,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
               text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_empty_state_text,
             }),
             Config(EmptyContainer, {
-              height: 548,
+              height: 570,
               itemId: OpenAIGeneralPanel.LOADING_STATE,
               iconElementName: "loading-state-icon",
               bemBlockName: OpenAIGeneralPanel.BLOCK_CLASS_NAME,
@@ -100,9 +100,9 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
               itemId: OpenAIGeneralPanel.SUCCESS_STATE,
               items: [
                 Config(TextArea, {
-                  fieldLabel: "Generated Text",
+                  fieldLabel: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_generated_text,
                   labelSeparator: "",
-                  minHeight: 250,
+                  minHeight: 230,
                   labelAlign: "top",
                   autoScroll: true,
                   readOnly: true,
@@ -114,7 +114,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                   ],
                 }),
                 Config(Container, {
-                  margin: "6 0 12 0",
+                  margin: "12 0 24 0",
                   height: 36,
                   items: [
                     Config(Button, {
@@ -128,7 +128,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                 }),
                 /** Actions Generated Text Area **/
                 Config(Container, {
-                  margin: "0 0 12 0",
+                  margin: "0 0 24 0",
                   height: 140,
                   items: [
                     Config(TextArea, {
@@ -149,7 +149,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                       ],
                     }),
                     Config(Container, {
-                      margin: "6 0 0 0",
+                      margin: "12 0 0 0",
                       height: 36,
                       items: [
                         Config(Button, {
@@ -173,7 +173,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
 
                 /** Actions Container **/
                 Config(Container, {
-                  margin: "0 0 12 0",
+                  margin: "0 0 24 0",
                   items: [
                     Config(Button, {
                       ui: ButtonSkin.LINK.getSkin(),
@@ -259,7 +259,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
         }),
 
         Config(Button, {
-          margin: "12 0 0 0",
+          margin: "24 0 0 0",
           ui: ButtonSkin.LINK.getSkin(),
           text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_credit_link,
           handler: bind(this$, this$.openOpenAI),

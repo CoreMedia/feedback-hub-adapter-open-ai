@@ -30,4 +30,5 @@ ResourceBundleUtil.override(FeedbackHubOpenAIStudioPlugin_properties, {
   OpenAI_action_metadata_text: "Meta-Beschreibung",
   OpenAI_action_keywords_text: "Schlagworte",
   OpenAI_credit_link: "Bereitgestellt durch OpenAI",
+  OpenAI_generated_text: "Generierter Text",
 });

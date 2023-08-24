@@ -39,6 +39,7 @@ interface FeedbackHubOpenAIStudioPlugin_properties {
   OpenAI_action_metadata_text: string;
   OpenAI_action_keywords_text: string;
   OpenAI_credit_link: string;
+  OpenAI_generated_text: string;
 }
 
 /**
@@ -72,6 +73,7 @@ const FeedbackHubOpenAIStudioPlugin_properties: FeedbackHubOpenAIStudioPlugin_pr
   OpenAI_action_metadata_text: "Metadata Description",
   OpenAI_action_keywords_text: "Keywords",
   OpenAI_credit_link: "Service provided by OpenAI",
+  OpenAI_generated_text: "Generated Text",
 };
 
 export default FeedbackHubOpenAIStudioPlugin_properties;
