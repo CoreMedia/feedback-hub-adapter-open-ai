@@ -36,6 +36,7 @@ public interface OpenAISettings {
   String getLanguageModel();
 
   String getTextProperty();
+  String getSummaryProperty();
   String getTitleProperty();
   String getKeywordsProperty();
   String getHeadlineProperty();

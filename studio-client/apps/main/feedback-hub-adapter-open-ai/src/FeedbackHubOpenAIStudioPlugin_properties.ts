@@ -48,7 +48,7 @@ interface FeedbackHubOpenAIStudioPlugin_properties {
 const FeedbackHubOpenAIStudioPlugin_properties: FeedbackHubOpenAIStudioPlugin_properties = {
   OpenAI_iconCls: SvgIconUtil.getIconStyleClassForSvgIcon(icon),
   OpenAI_title: "OpenAI",
-  OpenAI_tooltip: "AI driven text generation",
+  OpenAI_tooltip: "AI-driven text generation",
   OpenAI_ariaLabel: "ChatGPT",
   OpenAI_general_tab_title: "ChatGPT",
   OpenAI_apply_confirmation_title: "Apply Generated Text?",
@@ -65,13 +65,13 @@ const FeedbackHubOpenAIStudioPlugin_properties: FeedbackHubOpenAIStudioPlugin_pr
   OpenAI_empty_state_title: "No result",
   OpenAI_empty_state_text: "OpenAI was not able to generate a result. Please rephrase your question and try again.",
   OpenAI_loading_state_title: "Writing ...",
-  OpenAI_loading_state_text: "Please have some patience while ChatGPT generates the text.",
+  OpenAI_loading_state_text: "Please have a little patience while ChatGPT generates the text.",
   OpenAI_action_summarize_text: "Summary",
   OpenAI_action_headline_text: "Headline",
   OpenAI_action_title_text: "HTML Title",
   OpenAI_action_metadata_text: "Metadata Description",
   OpenAI_action_keywords_text: "Keywords",
-  OpenAI_credit_link: "service provided by OpenAI",
+  OpenAI_credit_link: "Service provided by OpenAI",
 };
 
 export default FeedbackHubOpenAIStudioPlugin_properties;

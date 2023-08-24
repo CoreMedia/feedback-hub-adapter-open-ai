@@ -21,6 +21,7 @@ public class ApplyTextToContentJob implements Job {
   private static final Logger LOG = LoggerFactory.getLogger(ApplyTextToContentJob.class);
 
   public static final String DETAIL_TEXT_PROPERTY = "detailText";
+  public static final String SUMMARY_TEXT_PROPERTY = "teaserText";
   public static final String TITLE_TEXT_PROPERTY = "htmlTitle";
   public static final String HEADLINE_TEXT_PROPERTY = "title";
   public static final String METADATA_TEXT_PROPERTY = "htmlDescription";
@@ -79,15 +80,17 @@ public class ApplyTextToContentJob implements Job {
       }
       content.checkOut();
 
+      OpenAISettings settings = getSettings();
+
       //apply generated text
       if (StringUtils.isEmpty(actionId)) {
-        content.set(DETAIL_TEXT_PROPERTY, newMarkup);
+        String propertyName = !StringUtils.isEmpty(settings.getTextProperty()) ? settings.getTextProperty() : DETAIL_TEXT_PROPERTY;
+        content.set(propertyName, newMarkup);
       } else {
         //apply prompt engineered text
-        OpenAISettings settings = getSettings();
         switch (actionId) {
           case GenerateTextJob.ACTION_SUMMARIZE: {
-            String propertyName = !StringUtils.isEmpty(settings.getTextProperty()) ? settings.getTextProperty() : DETAIL_TEXT_PROPERTY;
+            String propertyName = !StringUtils.isEmpty(settings.getSummaryProperty()) ? settings.getSummaryProperty() : SUMMARY_TEXT_PROPERTY;
             content.set(propertyName, newMarkup);
             break;
           }
@@ -123,7 +126,7 @@ public class ApplyTextToContentJob implements Job {
       return text;
     } catch (Exception e) {
       LOG.error("Failed to apply text to content {}: {}", contentId, e.getMessage(), e);
-      throw new JobExecutionException(GenericJobErrorCode.FAILED);
+      throw new JobExecutionException(GenericJobErrorCode.FAILED, new Object[]{e.getMessage()}, e);
     }
   }
 

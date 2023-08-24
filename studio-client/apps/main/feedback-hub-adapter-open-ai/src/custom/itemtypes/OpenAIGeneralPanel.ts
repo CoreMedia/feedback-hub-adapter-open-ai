@@ -342,6 +342,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
             //on error
             (error: JobExecutionError): void => {
               console.log("[ERROR]", "Error applying text to content: " + error);
+              MessageBoxUtil.showError("Error", "Error applying content: " + error.message);
             },
           );
         }

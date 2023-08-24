@@ -86,7 +86,7 @@ public class TextToMarkupUtil {
       //numeric + "." + anything
       if (line.matches(ORDERED_LIST_PATTERN)) {
         String lineWithoutLeadingNumber = line.replaceFirst("^[0-9]+[.]+", "");
-        return LIST_ELEMENT_OPENING_TAG + lineWithoutLeadingNumber + LIST_ELEMENT_CLOSING_TAG;
+        return LIST_ELEMENT_OPENING_TAG + lineWithoutLeadingNumber.trim() + LIST_ELEMENT_CLOSING_TAG;
       }
       return line;
     }).collect(joining(NEW_LINE_DELIMITER));
@@ -94,9 +94,10 @@ public class TextToMarkupUtil {
     String toReplace = LIST_ELEMENT_CLOSING_TAG;
     int start = textWithProcessedListItems.lastIndexOf(toReplace);
     String replacement = LIST_ELEMENT_CLOSING_TAG + ORDERED_LIST_CLOSING_TAG;
-    return textWithProcessedListItems
-      .replaceFirst(LIST_ELEMENT_OPENING_TAG, ORDERED_LIST_OPENING_TAG + LIST_ELEMENT_OPENING_TAG)
-      .substring(0, start) + replacement + textWithProcessedListItems.substring(start + toReplace.length());
+    String formatted = textWithProcessedListItems.replaceFirst(LIST_ELEMENT_OPENING_TAG, ORDERED_LIST_OPENING_TAG + LIST_ELEMENT_OPENING_TAG);
+    formatted = formatted.substring(0, formatted.lastIndexOf(LIST_ELEMENT_CLOSING_TAG));
+    textWithProcessedListItems = formatted + replacement + textWithProcessedListItems.substring(start + toReplace.length());
+    return textWithProcessedListItems;
   }
 
   /**

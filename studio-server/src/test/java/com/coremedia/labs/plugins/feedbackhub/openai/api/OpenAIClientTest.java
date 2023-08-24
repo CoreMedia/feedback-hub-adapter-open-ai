@@ -2,6 +2,7 @@ package com.coremedia.labs.plugins.feedbackhub.openai.api;
 
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -44,8 +45,14 @@ public class OpenAIClientTest {
             .maxTokens(1000)
             .echo(true)
             .build();
-    String text = service.createCompletion(request).getChoices().stream().findFirst().orElseThrow().getText();
 
-
+    String text = service.createCompletion(request)
+      .getChoices()
+      .stream()
+      .findFirst()
+      .orElseThrow()
+      .getText()
+      .trim();
+    Assertions.assertNotNull(text);
   }
 }
