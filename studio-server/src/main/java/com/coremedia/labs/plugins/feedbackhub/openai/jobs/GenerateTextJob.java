@@ -80,7 +80,7 @@ public class GenerateTextJob implements Job {
     String text = null;
 
     OpenAISettings settings = getSettings();
-    String updatedPrompt = applyUserAction(prompt, actionId);
+    String updatedPrompt = applyUserAction(settings, prompt, actionId);
     String sanitized = sanitizePrompt(updatedPrompt);
 
     try {
@@ -119,10 +119,14 @@ public class GenerateTextJob implements Job {
         Optional<CompletionChoice> first = client.createCompletion(request).getChoices().stream().findFirst();
         if (first.isPresent()) {
           CompletionChoice completionChoice = first.get();
-          if(completionChoice.getFinish_reason() != null && !completionChoice.getFinish_reason().equals("stop")) {
+          if (completionChoice.getFinish_reason() != null && !completionChoice.getFinish_reason().equals("stop")) {
             LOG.info("Text generation stopped, reason: " + completionChoice.getFinish_reason());
           }
           text = completionChoice.getText().trim();
+
+          if (StringUtils.isEmpty(text)) {
+            LOG.info("Text generation was empty, finish reason: " + completionChoice.getFinish_reason());
+          }
         }
       }
 
@@ -138,7 +142,7 @@ public class GenerateTextJob implements Job {
    * Otherwise the message "overflow" would be sent with the next chat message.
    *
    * @param updatedPrompt the user prompt, may be already customized depending on the actionId
-   * @return the sanitezed user prompt
+   * @return the sanitized user prompt
    */
   private String sanitizePrompt(String updatedPrompt) {
     if (updatedPrompt.length() > CHAT_GPT_MAX_MSG_LENGTH) {
@@ -153,40 +157,55 @@ public class GenerateTextJob implements Job {
   /**
    * Depending on the user action, we do a little prompt engineering to customize the output.
    *
+   * @param settings
    * @param prompt   the question the user has entered OR the text OpenAI has generated for the original question
    * @param actionId an action if the user has already entered a question or null if the first AI is given
    * @return the modified prompt with optional additional commands
    */
-  private String applyUserAction(String prompt, String actionId) {
+  private String applyUserAction(OpenAISettings settings, String prompt, String actionId) {
     if (StringUtils.isEmpty(actionId)) {
       prompt = "Answer with less than 500 words or 4000 characters: " + prompt;
       return prompt;
     }
 
+    String fullPrompt = null;
     switch (actionId) {
       case ACTION_SUMMARIZE: {
-        return "Summarize the following text:\n\n" + prompt;
+        fullPrompt = !StringUtils.isEmpty(settings.getSummaryPrompt()) ? settings.getSummaryPrompt() : "Summarize the following text";
+        break;
       }
       case ACTION_EXTRACT_KEYWORDS: {
-        return "Extract the keywords from the following text with a total maximum length of 255 characters:\n\n" + prompt;
+        fullPrompt = !StringUtils.isEmpty(settings.getKeywordsPrompt()) ? settings.getKeywordsPrompt() : "Extract the keywords from the following text with a total maximum length of 255 characters";
+        break;
       }
       case ACTION_GENERATE_HEADLINE: {
-        return "Create an article headline from the following text:\n\n" + prompt;
+        fullPrompt = !StringUtils.isEmpty(settings.getHeadlinePrompt()) ? settings.getHeadlinePrompt() : "Create an article headline from the following text";
+        break;
       }
       case ACTION_GENERATE_METADATA: {
-        return "Summarize the following text in one sentence:\n\n" + prompt;
+        fullPrompt = !StringUtils.isEmpty(settings.getMetadataPrompt()) ? settings.getMetadataPrompt() : "Summarize the following text in one sentence";
+        break;
       }
       case ACTION_GENERATE_TITLE: {
-        return "Generate a title from the following text with a maximum length of 60 characters:\n\n" + prompt;
+        fullPrompt = !StringUtils.isEmpty(settings.getTitlePrompt()) ? settings.getTitlePrompt() : "Generate a title from the following text with a maximum length of 60 characters";
+        break;
       }
       default: {
         throw new UnsupportedOperationException("Invalid actionId '" + actionId + "'");
       }
     }
+    return formatActionPrompt(fullPrompt);
   }
 
   private OpenAISettings getSettings() {
     return settingsProvider.getSettings(groupId, siteId);
+  }
+
+  private String formatActionPrompt(String prompt) {
+    if (prompt != null && !prompt.endsWith(":")) {
+      prompt += ":\n\n";
+    }
+    return prompt;
   }
 
 }

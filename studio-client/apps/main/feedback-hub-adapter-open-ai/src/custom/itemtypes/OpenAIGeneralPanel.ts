@@ -79,7 +79,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
               text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_default_state_text,
             }),
             Config(EmptyContainer, {
-              height: 570,
+              height: 590,
               itemId: OpenAIGeneralPanel.EMPTY_STATE,
               iconElementName: "empty-state-icon",
               bemBlockName: OpenAIGeneralPanel.BLOCK_CLASS_NAME,
@@ -88,7 +88,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
               text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_empty_state_text,
             }),
             Config(EmptyContainer, {
-              height: 570,
+              height: 590,
               itemId: OpenAIGeneralPanel.LOADING_STATE,
               iconElementName: "loading-state-icon",
               bemBlockName: OpenAIGeneralPanel.BLOCK_CLASS_NAME,
@@ -129,7 +129,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                 /** Actions Generated Text Area **/
                 Config(Container, {
                   margin: "0 0 24 0",
-                  height: 140,
+                  height: 160,
                   items: [
                     Config(TextArea, {
                       labelSeparator: "",

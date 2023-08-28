@@ -15,6 +15,7 @@
   <StringProperty Name="languageModel">text-davinci-003</StringProperty>
   <!-- These are the default settings and can be omitted -->
   <StringProperty Name="textProperty">detailText</StringProperty>
+  <StringProperty Name="summaryProperty">teaserText</StringProperty>
   <StringProperty Name="titleProperty">title</StringProperty>
   <StringProperty Name="keywordsProperty">keywords</StringProperty>
   <StringProperty Name="headlineProperty">htmlTitle</StringProperty>
@@ -22,6 +23,12 @@
   <IntProperty Name="maxTokens">1000</IntProperty>
   <IntProperty Name="temperature">30</IntProperty>
   <IntProperty Name="timeoutInSeconds">30</IntProperty>
+  <!-- Customize the prompts to limit the response or manipulate the output -->
+  <StringProperty Name="summaryPrompt">Summarize the following text</StringProperty>
+  <StringProperty Name="keywordsPrompt">Extract the keywords from the following text with a total maximum length of 255 characters</StringProperty>
+  <StringProperty Name="headlinePrompt">Create an article headline from the following text</StringProperty>
+  <StringProperty Name="metadataPrompt">Summarize the following text in one sentence</StringProperty>
+  <StringProperty Name="titlePrompt">Generate a title from the following text with a maximum length of 60 characters</StringProperty>
 </Struct>
 </StructProperty>
 </Struct></settings>

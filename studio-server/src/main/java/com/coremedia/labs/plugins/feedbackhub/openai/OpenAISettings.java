@@ -41,4 +41,10 @@ public interface OpenAISettings {
   String getKeywordsProperty();
   String getHeadlineProperty();
   String getMetadataProperty();
+
+  String getSummaryPrompt();
+  String getTitlePrompt();
+  String getKeywordsPrompt();
+  String getHeadlinePrompt();
+  String getMetadataPrompt();
 }
