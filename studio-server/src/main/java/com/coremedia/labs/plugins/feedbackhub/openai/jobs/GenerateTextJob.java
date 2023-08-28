@@ -168,33 +168,33 @@ public class GenerateTextJob implements Job {
       return prompt;
     }
 
-    String fullPrompt = null;
+    String promptPrefix = null;
     switch (actionId) {
       case ACTION_SUMMARIZE: {
-        fullPrompt = !StringUtils.isEmpty(settings.getSummaryPrompt()) ? settings.getSummaryPrompt() : "Summarize the following text";
+        promptPrefix = !StringUtils.isEmpty(settings.getSummaryPrompt()) ? settings.getSummaryPrompt() : "Summarize the following text";
         break;
       }
       case ACTION_EXTRACT_KEYWORDS: {
-        fullPrompt = !StringUtils.isEmpty(settings.getKeywordsPrompt()) ? settings.getKeywordsPrompt() : "Extract the keywords from the following text with a total maximum length of 255 characters";
+        promptPrefix = !StringUtils.isEmpty(settings.getKeywordsPrompt()) ? settings.getKeywordsPrompt() : "Extract the keywords from the following text with a total maximum length of 255 characters";
         break;
       }
       case ACTION_GENERATE_HEADLINE: {
-        fullPrompt = !StringUtils.isEmpty(settings.getHeadlinePrompt()) ? settings.getHeadlinePrompt() : "Create an article headline from the following text";
+        promptPrefix = !StringUtils.isEmpty(settings.getHeadlinePrompt()) ? settings.getHeadlinePrompt() : "Create an article headline from the following text";
         break;
       }
       case ACTION_GENERATE_METADATA: {
-        fullPrompt = !StringUtils.isEmpty(settings.getMetadataPrompt()) ? settings.getMetadataPrompt() : "Summarize the following text in one sentence";
+        promptPrefix = !StringUtils.isEmpty(settings.getMetadataPrompt()) ? settings.getMetadataPrompt() : "Summarize the following text in one sentence";
         break;
       }
       case ACTION_GENERATE_TITLE: {
-        fullPrompt = !StringUtils.isEmpty(settings.getTitlePrompt()) ? settings.getTitlePrompt() : "Generate a title from the following text with a maximum length of 60 characters";
+        promptPrefix = !StringUtils.isEmpty(settings.getTitlePrompt()) ? settings.getTitlePrompt() : "Generate a title from the following text with a maximum length of 60 characters";
         break;
       }
       default: {
         throw new UnsupportedOperationException("Invalid actionId '" + actionId + "'");
       }
     }
-    return formatActionPrompt(fullPrompt);
+    return formatActionPrompt(promptPrefix) + prompt;
   }
 
   private OpenAISettings getSettings() {
@@ -207,5 +207,4 @@ public class GenerateTextJob implements Job {
     }
     return prompt;
   }
-
 }

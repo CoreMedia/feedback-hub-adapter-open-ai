@@ -24,6 +24,7 @@
   <IntProperty Name="temperature">30</IntProperty>
   <IntProperty Name="timeoutInSeconds">30</IntProperty>
   <!-- Customize the prompts to limit the response or manipulate the output -->
+  <!-- These are the default settings and can be omitted -->
   <StringProperty Name="summaryPrompt">Summarize the following text</StringProperty>
   <StringProperty Name="keywordsPrompt">Extract the keywords from the following text with a total maximum length of 255 characters</StringProperty>
   <StringProperty Name="headlinePrompt">Create an article headline from the following text</StringProperty>
