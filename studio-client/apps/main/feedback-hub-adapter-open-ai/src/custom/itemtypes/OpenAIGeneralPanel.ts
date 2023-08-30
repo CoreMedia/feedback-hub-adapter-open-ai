@@ -31,6 +31,9 @@ import ContainerSkin from "@coremedia/studio-client.ext.ui-components/skins/Cont
 import SwitchingContainer from "@coremedia/studio-client.ext.ui-components/components/SwitchingContainer";
 import TextArea from "@jangaroo/ext-ts/form/field/TextArea";
 import OpenAIService from "../utils/OpenAIService";
+import HorizontalSpacingPlugin from "@coremedia/studio-client.ext.ui-components/plugins/HorizontalSpacingPlugin";
+import SpacingBEMEntities from "@coremedia/studio-client.ext.ui-components/bem/SpacingBEMEntities";
+import StringUtil from "@coremedia/studio-client.client-core/util/StringUtil";
 
 interface OpenAIGeneralPanelConfig extends Config<FeedbackItemPanel> {
 }
@@ -42,7 +45,8 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
 
   #generatedTextExpression: ValueExpression = null;
   #generatedTextActionExpression: ValueExpression = null;
-  #actionExpression: ValueExpression = null;
+  #actionIdExpression: ValueExpression = null;
+  #actionLabelExpression: ValueExpression = null;
 
   #questionInputExpression: ValueExpression = null;
 
@@ -143,7 +147,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                         }),
                         Config(BindPropertyPlugin, {
                           componentProperty: "fieldLabel",
-                          bindTo: this$.getActionExpression(),
+                          bindTo: this$.getActionIdExpression(),
                           transformer: actionId => FeedbackHubOpenAIStudioPlugin_properties['OpenAI_action_' + actionId + "_text"],
                         }),
                       ],
@@ -165,7 +169,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                   plugins: [
                     Config(BindPropertyPlugin, {
                       componentProperty: "hidden",
-                      bindTo: this$.getActionExpression(),
+                      bindTo: this$.getActionIdExpression(),
                       transformer: (action: string): boolean => !action,
                     }),
                   ],
@@ -200,6 +204,9 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                       text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_action_keywords_text,
                       handler: bind(this$, this$.applyKeywords),
                     }),
+                  ],
+                  plugins: [
+                    Config(HorizontalSpacingPlugin, {modifier: SpacingBEMEntities.HORIZONTAL_SPACING_MODIFIER_200}),
                   ],
                   layout: Config(HBoxLayout, {
                     align: "stretch",
@@ -281,11 +288,18 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
     return this.#questionInputExpression;
   }
 
-  getActionExpression(): ValueExpression {
-    if (!this.#actionExpression) {
-      this.#actionExpression = ValueExpressionFactory.createFromValue("");
+  getActionIdExpression(): ValueExpression {
+    if (!this.#actionIdExpression) {
+      this.#actionIdExpression = ValueExpressionFactory.createFromValue("");
     }
-    return this.#actionExpression;
+    return this.#actionIdExpression;
+  }
+
+  getActionLabelExpression(): ValueExpression {
+    if (!this.#actionLabelExpression) {
+      this.#actionLabelExpression = ValueExpressionFactory.createFromValue();
+    }
+    return this.#actionLabelExpression;
   }
 
   getGeneratedTextExpression(): ValueExpression {
@@ -311,14 +325,14 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
 
   applyActionTextToContent(): void {
     let title = FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_button_label;
-    let msg = FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_popup_message;
+    let msg = StringUtil.format(FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_popup_message, this.getActionLabelExpression().getValue());
     let buttonLabel = FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_popup_submit_button_label;
     MessageBoxUtil.showConfirmation(title, msg, buttonLabel,
       (btn: any): void => {
         if (btn === "ok") {
           const content: Content = this.contentExpression.getValue();
           const text = this.getGeneratedActionTextExpression().getValue();
-          const actionId = this.getActionExpression().getValue();
+          const actionId = this.getActionIdExpression().getValue();
           let siteId = editorContext._.getSitesService().getSiteIdFor(content);
           if (!siteId) {
             siteId = "all";
@@ -351,7 +365,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
 
   applyTextToContent(): void {
     let title = FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_button_label;
-    let msg = FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_popup_message;
+    let msg = StringUtil.format(FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_popup_message, FeedbackHubOpenAIStudioPlugin_properties.OpenAI_action_detail_text);
     let buttonLabel = FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_popup_submit_button_label;
     MessageBoxUtil.showConfirmation(title, msg, buttonLabel,
       (btn: any): void => {
@@ -392,32 +406,37 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
   }
 
   applyKeywords() {
+    this.getActionLabelExpression().setValue(FeedbackHubOpenAIStudioPlugin_properties.OpenAI_action_keywords_text);
     this.applyAction(OpenAIService.ACTION_EXTRACT_KEYWORDS);
   }
 
   applySummary() {
+    this.getActionLabelExpression().setValue(FeedbackHubOpenAIStudioPlugin_properties.OpenAI_action_summarize_text);
     this.applyAction(OpenAIService.ACTION_SUMMARIZE);
   }
 
   applyHeadline() {
+    this.getActionLabelExpression().setValue(FeedbackHubOpenAIStudioPlugin_properties.OpenAI_action_headline_text);
     this.applyAction(OpenAIService.ACTION_GENERATE_HEADLINE);
   }
 
   applyMetadata() {
+    this.getActionLabelExpression().setValue(FeedbackHubOpenAIStudioPlugin_properties.OpenAI_action_metadata_text);
     this.applyAction(OpenAIService.ACTION_GENERATE_METADATA);
   }
 
   applyTitle() {
+    this.getActionLabelExpression().setValue(FeedbackHubOpenAIStudioPlugin_properties.OpenAI_action_title_text);
     this.applyAction(OpenAIService.ACTION_GENERATE_TITLE);
   }
 
   applyAction(actionId: string): void {
-    this.getActionExpression().setValue(actionId);
+    this.getActionIdExpression().setValue(actionId);
     this.updateConversation();
   }
 
   applyQuestion(): void {
-    this.getActionExpression().setValue(null);
+    this.getActionIdExpression().setValue(null);
     this.updateConversation();
   }
 
@@ -435,7 +454,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
     }
 
     //if an action is set, the text was already generated, and we re-use it for other actions
-    const actionId = this.#actionExpression.getValue();
+    const actionId = this.getActionIdExpression().getValue();
     if (actionId) {
       input = this.#generatedTextExpression.getValue();
     }

@@ -27,7 +27,7 @@ public class OpenAIFeedbackProvider implements FeedbackProvider {
   public CompletionStage<Collection<FeedbackItem>> provideFeedback(FeedbackContext context) {
     List<FeedbackItem> items = new ArrayList<>();
 
-    FeedbackLinkFeedbackItem githubLink = FeedbackItemFactory.createFeedbackLink("https://github.com/CoreMedia/feedback-hub-adapter-open-ai");
+    FeedbackLinkFeedbackItem githubLink = FeedbackItemFactory.createFeedbackLink("https://chat.openai.com/");
     items.add(githubLink);
 
     OpenAIGeneralFeedbackItem openAIGeneralFeedbackItem = OpenAIGeneralFeedbackItem.builder()
