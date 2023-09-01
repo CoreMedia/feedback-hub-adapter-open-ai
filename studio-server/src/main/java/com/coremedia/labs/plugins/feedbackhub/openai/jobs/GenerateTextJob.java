@@ -1,6 +1,6 @@
 package com.coremedia.labs.plugins.feedbackhub.openai.jobs;
 
-import com.coremedia.labs.plugins.feedbackhub.openai.FeedbackSettingsProvider;
+import com.coremedia.feedbackhub.settings.FeedbackSettingsProvider;
 import com.coremedia.labs.plugins.feedbackhub.openai.OpenAISettings;
 import com.coremedia.labs.plugins.feedbackhub.openai.api.OpenAIClientProvider;
 import com.coremedia.rest.cap.jobs.GenericJobErrorCode;
@@ -198,7 +198,7 @@ public class GenerateTextJob implements Job {
   }
 
   private OpenAISettings getSettings() {
-    return settingsProvider.getSettings(groupId, siteId);
+    return settingsProvider.getSettings(OpenAISettings.class, groupId, groupId, siteId);
   }
 
   private String formatActionPrompt(String prompt) {

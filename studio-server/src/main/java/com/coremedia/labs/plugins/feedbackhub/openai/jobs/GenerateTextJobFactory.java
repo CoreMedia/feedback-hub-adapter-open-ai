@@ -1,6 +1,6 @@
 package com.coremedia.labs.plugins.feedbackhub.openai.jobs;
 
-import com.coremedia.labs.plugins.feedbackhub.openai.FeedbackSettingsProvider;
+import com.coremedia.feedbackhub.settings.FeedbackSettingsProvider;
 import com.coremedia.rest.cap.jobs.Job;
 import com.coremedia.rest.cap.jobs.JobFactory;
 import edu.umd.cs.findbugs.annotations.NonNull;
