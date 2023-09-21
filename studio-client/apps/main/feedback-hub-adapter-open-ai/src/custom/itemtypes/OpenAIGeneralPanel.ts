@@ -189,27 +189,27 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                   margin: "0 0 24 0",
                   items: [
                     Config(Button, {
-                      ui: ButtonSkin.LINK.getSkin(),
+                      ui: ButtonSkin.SECONDARY_LIGHT.getSkin(),
                       text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_action_summarize_text,
                       handler: bind(this$, this$.applySummary),
                     }),
                     Config(Button, {
-                      ui: ButtonSkin.LINK.getSkin(),
+                      ui: ButtonSkin.SECONDARY_LIGHT.getSkin(),
                       text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_action_headline_text,
                       handler: bind(this$, this$.applyHeadline),
                     }),
                     Config(Button, {
-                      ui: ButtonSkin.LINK.getSkin(),
+                      ui: ButtonSkin.SECONDARY_LIGHT.getSkin(),
                       text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_action_title_text,
                       handler: bind(this$, this$.applyTitle),
                     }),
                     Config(Button, {
-                      ui: ButtonSkin.LINK.getSkin(),
+                      ui: ButtonSkin.SECONDARY_LIGHT.getSkin(),
                       text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_action_metadata_text,
                       handler: bind(this$, this$.applyMetadata),
                     }),
                     Config(Button, {
-                      ui: ButtonSkin.LINK.getSkin(),
+                      ui: ButtonSkin.SECONDARY_LIGHT.getSkin(),
                       text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_action_keywords_text,
                       handler: bind(this$, this$.applyKeywords),
                     }),
