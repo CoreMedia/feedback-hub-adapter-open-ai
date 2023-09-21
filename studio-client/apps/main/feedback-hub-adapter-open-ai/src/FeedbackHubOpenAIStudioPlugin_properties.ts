@@ -23,6 +23,7 @@ interface FeedbackHubOpenAIStudioPlugin_properties {
   OpenAI_instruction_emptyText: string;
   OpenAI_instruction_blank_validation_text: string;
   OpenAI_instruction_submit_button_label: string;
+  OpenAI_redo_text_button_label: string;
   OpenAI_apply_confirmation_title: string;
   OpenAI_apply_text_button_label: string;
   OpenAI_apply_text_popup_message: string;
@@ -54,6 +55,7 @@ const FeedbackHubOpenAIStudioPlugin_properties: FeedbackHubOpenAIStudioPlugin_pr
   OpenAI_ariaLabel: "ChatGPT",
   OpenAI_general_tab_title: "ChatGPT",
   OpenAI_apply_confirmation_title: "Apply Generated Text?",
+  OpenAI_redo_text_button_label: "Redo",
   OpenAI_apply_text_button_label: "Apply",
   OpenAI_apply_text_popup_message: " Are you sure you want to overwrite the existing \"{0}\"?",
   OpenAI_apply_text_popup_submit_button_label: "Confirm",
@@ -75,7 +77,7 @@ const FeedbackHubOpenAIStudioPlugin_properties: FeedbackHubOpenAIStudioPlugin_pr
   OpenAI_action_metadata_text: "HTML Metadata Description",
   OpenAI_action_keywords_text: "Free Keywords",
   OpenAI_credit_link: "Service provided by OpenAI",
-  OpenAI_generated_text: "Generated Text",
+  OpenAI_generated_text: "Generated Text"
 };
 
 export default FeedbackHubOpenAIStudioPlugin_properties;

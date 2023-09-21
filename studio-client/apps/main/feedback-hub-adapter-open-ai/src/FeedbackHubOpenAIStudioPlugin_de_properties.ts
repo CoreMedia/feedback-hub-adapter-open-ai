@@ -10,6 +10,7 @@ ResourceBundleUtil.override(FeedbackHubOpenAIStudioPlugin_properties, {
   OpenAI_ariaLabel: "ChatGPT",
   OpenAI_general_tab_title: "ChatGPT",
   OpenAI_apply_confirmation_title: "Generierten Text Anwenden?",
+  OpenAI_redo_text_button_label: "Erneut Generieren",
   OpenAI_apply_text_button_label: "Anwenden",
   OpenAI_apply_text_popup_message: "Sind Sie sicher, dass Sie den Text im Feld \"{0}\" überschreiben wollen?",
   OpenAI_apply_text_popup_submit_button_label: "Bestätigen",

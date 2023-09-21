@@ -123,7 +123,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                   items: [
                     Config(Button, {
                       formBind: true,
-                      ui: ButtonSkin.SECONDARY_LIGHT.getSkin(),
+                      ui: ButtonSkin.PRIMARY_LIGHT.getSkin(),
                       handler: bind(this$, this$.applyTextToContent),
                       text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_button_label
                     }),
@@ -158,11 +158,20 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                       items: [
                         Config(Button, {
                           ui: ButtonSkin.SECONDARY_LIGHT.getSkin(),
+                          text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_redo_text_button_label,
+                          handler: bind(this$, this$.applyActiveAction),
+                          margin: "0 6 0 6",
+                        }),
+                        Config(Button, {
+                          ui: ButtonSkin.PRIMARY_LIGHT.getSkin(),
                           handler: bind(this$, this$.applyActionTextToContent),
                           text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_button_label
                         }),
                       ],
-                      layout: Config(VBoxLayout, {align: "end"}),
+                      layout: Config(HBoxLayout, {
+                        align: "end",
+                        pack: "end",
+                      }),
                     }),
                   ],
                   layout: Config(VBoxLayout, {align: "stretch"}),
@@ -433,6 +442,10 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
   applyAction(actionId: string): void {
     this.getActionIdExpression().setValue(actionId);
     this.updateConversation();
+  }
+
+  applyActiveAction(): void {
+    this.applyAction(this.getActionIdExpression().getValue());
   }
 
   applyQuestion(): void {
