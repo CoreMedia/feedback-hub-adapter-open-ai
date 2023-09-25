@@ -17,7 +17,6 @@ The following use-cases are covered:
 - Text Generation based on a given prompt.
 - Applying generated text to different content property field. 
 
-___
 
 ## Versioning
 
@@ -26,6 +25,21 @@ please take look at the releases section or on the existing branches.
 To find the matching version of your CoreMedia system, please checkout the branch 
 with the corresponding name. For example, 
 if your CoreMedia version is 2307.1, checkout the branch 2307.1.
+
+## Documentation & Tutorial
+
+* **[Documentation](docs/README.md)**
+
+  for guides administrators and developers
+
+* **[Changelog](CHANGELOG.md)**
+
+  for recent changes
+
+* **[Issues](https://github.com/CoreMedia/feedback-hub-adapter-open-ai/issues)**
+
+  for known bugs and feature requests
+
 
 ## Getting Started
 
