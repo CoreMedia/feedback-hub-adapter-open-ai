@@ -112,9 +112,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                   readOnly: true,
                   flex: 1,
                   plugins: [
-                    Config(BindPropertyPlugin, {
-                      bindTo: this$.getGeneratedTextExpression(),
-                    }),
+                    Config(BindPropertyPlugin, {bindTo: this$.getGeneratedTextExpression() }),
                   ],
                 }),
                 Config(Container, {
@@ -122,13 +120,23 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                   height: 36,
                   items: [
                     Config(Button, {
+                      ui: ButtonSkin.SECONDARY_LIGHT.getSkin(),
+                      text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_redo_text_button_label,
+                      margin: "0 6 0 6",
+                      formBind: true,
+                      handler: bind(this$, this$.applyQuestion),
+                    }),
+                    Config(Button, {
                       formBind: true,
                       ui: ButtonSkin.PRIMARY_LIGHT.getSkin(),
                       handler: bind(this$, this$.applyTextToContent),
-                      text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_button_label
+                      text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_button_label,
                     }),
                   ],
-                  layout: Config(VBoxLayout, {align: "end"}),
+                  layout: Config(HBoxLayout, {
+                    align: "end",
+                    pack: "end",
+                  }),
                 }),
                 /** Actions Generated Text Area **/
                 Config(Container, {
@@ -165,7 +173,7 @@ class OpenAIGeneralPanel extends FeedbackItemPanel {
                         Config(Button, {
                           ui: ButtonSkin.PRIMARY_LIGHT.getSkin(),
                           handler: bind(this$, this$.applyActionTextToContent),
-                          text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_button_label
+                          text: FeedbackHubOpenAIStudioPlugin_properties.OpenAI_apply_text_button_label,
                         }),
                       ],
                       layout: Config(HBoxLayout, {
