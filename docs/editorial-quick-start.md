@@ -52,10 +52,11 @@ The given list shows the values that are required for the feedback-hub-adapter-o
 
 The settings struct contains the configuration for the feedback-hub-adapter-open-ai. The values are:
 
-| Key              | Type     | Value                             | Required |
-|------------------|----------|-----------------------------------|----------|
-| apiKey           | String   | The OpenAI API key                | Yes      |
-| languageModel    | String   | The ChatGPT language model to use | Yes      |
+| Key           | Type     | Value                             | Required                                |
+|---------------|----------|-----------------------------------|-----------------------------------------|
+| baseUrl       | String   | The OpenAI API baseUrl            | No (default is https://api.openai.com/) |
+| apiKey        | String   | The OpenAI API key                | Yes                                     |
+| languageModel | String   | The ChatGPT language model to use | Yes                                     |
 
 #### Example
 
