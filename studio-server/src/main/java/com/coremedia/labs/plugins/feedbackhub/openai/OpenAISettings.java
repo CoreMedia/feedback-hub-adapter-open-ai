@@ -5,9 +5,12 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 /**
  * Settings interface for OpenAI Feedback Hub.
  *
+ * baseUrl is optional (default is https://api.openai.com/)
+ *
  * Example:
  * <pre>
- *   &lt;Struct&gt;
+ * &lt;Struct&gt;
+ *   &lt;StringProperty Name=&quot;baseUrl&quot;&gt;OPEN AI BASE URL&lt;/StringProperty&gt;
  *   &lt;StringProperty Name=&quot;apiKey&quot;&gt;YOUR API KEY&lt;/StringProperty&gt;
  *   &lt;StringProperty Name=&quot;languageModel&quot;&gt;text-davinci-003&lt;/StringProperty&gt;
  *   &lt;StringProperty Name=&quot;textProperty&quot;&gt;detailText&lt;/StringProperty&gt;
@@ -22,6 +25,8 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  * </pre>
  */
 public interface OpenAISettings {
+
+  String getBaseUrl();
 
   @NonNull
   String getApiKey();

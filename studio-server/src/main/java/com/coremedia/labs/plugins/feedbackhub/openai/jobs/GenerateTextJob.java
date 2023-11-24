@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 public class GenerateTextJob implements Job {
   private static final Logger LOG = LoggerFactory.getLogger(GenerateTextJob.class);
 
@@ -86,7 +88,13 @@ public class GenerateTextJob implements Job {
     try {
       model = settings.getLanguageModel();
       Integer timeoutInSeconds = settings.getTimeoutInSeconds() != null ? settings.getTimeoutInSeconds() : 30;
-      OpenAiService client = OpenAIClientProvider.getClient(settings.getApiKey(), Duration.ofSeconds(timeoutInSeconds));
+      OpenAiService client;
+      String baseUrl = settings.getBaseUrl();
+      if (isNotBlank(baseUrl)) {
+        client = OpenAIClientProvider.getClient(baseUrl, settings.getApiKey(), Duration.ofSeconds(timeoutInSeconds));
+      } else {
+        client = OpenAIClientProvider.getClient(settings.getApiKey(), Duration.ofSeconds(timeoutInSeconds));
+      }
 
       int temparature = (settings.getTemperature() != null ? settings.getTemperature() : 30) / 100;
       int maxTokens = settings.getMaxTokens() != null ? settings.getMaxTokens() : 1000;
