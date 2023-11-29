@@ -3,8 +3,8 @@ package com.coremedia.labs.plugins.feedbackhub.openai.jobs;
 import com.coremedia.cap.common.CapConnection;
 import com.coremedia.cap.content.Content;
 import com.coremedia.cap.content.ContentRepository;
-import com.coremedia.labs.plugins.feedbackhub.openai.FeedbackSettingsProvider;
 import com.coremedia.labs.plugins.feedbackhub.openai.OpenAISettings;
+import com.coremedia.labs.plugins.feedbackhub.openai.OpenAISettingsProvider;
 import com.coremedia.rest.cap.jobs.GenericJobErrorCode;
 import com.coremedia.rest.cap.jobs.Job;
 import com.coremedia.rest.cap.jobs.JobContext;
@@ -34,9 +34,9 @@ public class ApplyTextToContentJob implements Job {
   private String groupId;
 
   private final ContentRepository contentRepository;
-  private final FeedbackSettingsProvider settingsProvider;
+  private final OpenAISettingsProvider settingsProvider;
 
-  public ApplyTextToContentJob(CapConnection capConnection, FeedbackSettingsProvider settingsProvider) {
+  public ApplyTextToContentJob(CapConnection capConnection, OpenAISettingsProvider settingsProvider) {
     this.contentRepository = capConnection.getContentRepository();
     this.settingsProvider = settingsProvider;
   }

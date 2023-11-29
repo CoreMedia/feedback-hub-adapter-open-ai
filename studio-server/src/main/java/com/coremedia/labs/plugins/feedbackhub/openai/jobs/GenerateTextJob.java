@@ -1,7 +1,7 @@
 package com.coremedia.labs.plugins.feedbackhub.openai.jobs;
 
-import com.coremedia.labs.plugins.feedbackhub.openai.FeedbackSettingsProvider;
 import com.coremedia.labs.plugins.feedbackhub.openai.OpenAISettings;
+import com.coremedia.labs.plugins.feedbackhub.openai.OpenAISettingsProvider;
 import com.coremedia.labs.plugins.feedbackhub.openai.api.OpenAIClientProvider;
 import com.coremedia.rest.cap.jobs.GenericJobErrorCode;
 import com.coremedia.rest.cap.jobs.Job;
@@ -44,9 +44,9 @@ public class GenerateTextJob implements Job {
   private String groupId;
   private String actionId;
 
-  private final FeedbackSettingsProvider settingsProvider;
+  private final OpenAISettingsProvider settingsProvider;
 
-  public GenerateTextJob(FeedbackSettingsProvider settingsProvider) {
+  public GenerateTextJob(OpenAISettingsProvider settingsProvider) {
     this.settingsProvider = settingsProvider;
   }
 

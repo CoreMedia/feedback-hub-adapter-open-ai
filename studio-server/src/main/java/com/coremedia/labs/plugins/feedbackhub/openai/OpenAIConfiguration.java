@@ -1,9 +1,9 @@
 package com.coremedia.labs.plugins.feedbackhub.openai;
 
 import com.coremedia.cap.common.CapConnection;
-import com.coremedia.cap.multisite.SitesService;
-import com.coremedia.cms.common.plugins.beans_for_plugins.CommonBeansForPluginsConfiguration;
-import com.coremedia.feedbackhub.FeedbackHubConfigurationProperties;
+import com.coremedia.cms.common.plugins.beans_for_plugins2.CommonBeansForPluginsConfiguration;
+import com.coremedia.feedbackhub.beans_for_plugins.FeedbackHubBeansForPluginsConfiguration;
+import com.coremedia.feedbackhub.settings.FeedbackSettingsProvider;
 import com.coremedia.labs.plugins.feedbackhub.openai.jobs.ApplyTextToContentJobFactory;
 import com.coremedia.labs.plugins.feedbackhub.openai.jobs.GenerateTextJobFactory;
 import com.coremedia.labs.plugins.feedbackhub.openai.provider.OpenAIFeedbackProviderFactory;
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({CommonBeansForPluginsConfiguration.class})
+@Import({CommonBeansForPluginsConfiguration.class, FeedbackHubBeansForPluginsConfiguration.class})
 public class OpenAIConfiguration {
 
   @Bean
@@ -22,26 +22,21 @@ public class OpenAIConfiguration {
   }
 
   @Bean
-  public FeedbackSettingsProvider openAIFeedbackSettingsProvider(@NonNull SitesService sitesService, @NonNull CapConnection capConnection) {
-    return new FeedbackSettingsProvider(capConnection,
-      sitesService,
-      new FeedbackHubConfigurationProperties.Bindings(),
-      OpenAISettings.class,
-      OpenAIFeedbackProviderFactory.TYPE);
+  public OpenAISettingsProvider openAISettingsProvider(FeedbackSettingsProvider feedbackSettingsProvider) {
+    return new OpenAISettingsProvider(feedbackSettingsProvider, OpenAIFeedbackProviderFactory.TYPE);
   }
-
 
   // --- OpenAI Services ---
 
   // --- Job Factories ---
   @Bean
-  public GenerateTextJobFactory generateTextJobFactory(@NonNull FeedbackSettingsProvider openAIFeedbackSettingsProvider) {
-    return new GenerateTextJobFactory(openAIFeedbackSettingsProvider);
+  public GenerateTextJobFactory generateTextJobFactory(@NonNull OpenAISettingsProvider openAISettingsProvider) {
+    return new GenerateTextJobFactory(openAISettingsProvider);
   }
 
   @Bean
   public ApplyTextToContentJobFactory applyTextToContentJobFactory(@NonNull CapConnection capConnection,
-                                                                   @NonNull FeedbackSettingsProvider openAIFeedbackSettingsProvider) {
-    return new ApplyTextToContentJobFactory(capConnection, openAIFeedbackSettingsProvider);
+                                                                   @NonNull OpenAISettingsProvider openAISettingsProvider) {
+    return new ApplyTextToContentJobFactory(capConnection, openAISettingsProvider);
   }
 }
